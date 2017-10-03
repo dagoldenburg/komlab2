@@ -34,7 +34,6 @@ public class Startup {
         String ip;
         String[] split;
         boolean inSession;
-        System.out.println();
         Thread audioSendThread = new Thread();
         while(true){ //waiting
             System.out.println("Welcome, if you want to call someone write: call <ip>");
