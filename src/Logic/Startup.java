@@ -1,5 +1,6 @@
 package Logic;
 
+import AudioClasses.AudioReceive;
 import AudioClasses.AudioSend;
 import ListenForCalls.CallListener;
 
@@ -32,7 +33,8 @@ public class Startup {
         Scanner s = new Scanner(System.in);
         String input;
         String ip;
-        Thread audioSendThread = new Thread();
+        Thread audioSendThread = null;
+        Thread audioReceiveThread = null;
         while(true){ //waiting
             System.out.println("Welcome, if you want to call someone write: call <ip>");
             input = s.nextLine();
@@ -51,11 +53,13 @@ public class Startup {
                     StateHandler.setStateInSession();
                     audioSendThread = new Thread(new AudioSend(ip));
                     audioSendThread.start();
+                    audioReceiveThread = new Thread(new AudioReceive(ip));
+                    audioReceiveThread.start();
                     while(StateHandler.isInSession()){ // in session
                         System.out.println("Press x if you want to hang up.");
                         input = s.nextLine();
                         if(input.equalsIgnoreCase("x")){
-                            toPeer.writeBytes("BYE");
+                            toPeer.writeBytes("BYE\n");
                             StateHandler.setStateClosing();
                         }
                     }
@@ -72,6 +76,7 @@ public class Startup {
                 try {
                     StateHandler.setStateClosing();
                     audioSendThread.interrupt();
+                    audioReceiveThread.interrupt();
                     socket.close();
                     StateHandler.setStateWaiting();
                 } catch (IOException e) {

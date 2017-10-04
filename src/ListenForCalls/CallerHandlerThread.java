@@ -20,12 +20,13 @@ public class CallerHandlerThread implements Runnable {
 
     @Override
     public void run() {
-        Thread audioReceiveThread;
+        Thread audioReceiveThread = null;
+        Thread audioSendThread = null;
             try {
                 BufferedReader fromPeer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 DataOutputStream toPeer = new DataOutputStream(connection.getOutputStream());
                 if(StateHandler.isInSession()){
-                    toPeer.writeBytes("BUSY");
+                    toPeer.writeBytes("BUSY\n");
                     return;
                 }
                 if(fromPeer.readLine().contains("INVITE")){
@@ -37,8 +38,10 @@ public class CallerHandlerThread implements Runnable {
                         String ip = connection.getInetAddress().getHostAddress();
                         audioReceiveThread = new Thread(new AudioReceive(ip));
                         audioReceiveThread.start();
+                        audioSendThread = new Thread(new AudioSend(ip));
+                        audioSendThread.start();
                         while(StateHandler.isInSession()){
-                            if(fromPeer.readLine().equals("BYE")){
+                            if(fromPeer.readLine().contains("BYE")){
                                 toPeer.writeBytes("ACK");
                                 StateHandler.setStateClosing();
                             }
@@ -50,6 +53,8 @@ public class CallerHandlerThread implements Runnable {
             }finally{ // closing
                 try {
                     connection.close();
+                    audioReceiveThread.interrupt();
+                    audioSendThread.interrupt();
                     StateHandler.setStateWaiting();
                 } catch (IOException e) {
                     e.printStackTrace();
