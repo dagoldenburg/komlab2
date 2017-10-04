@@ -12,11 +12,9 @@ import java.net.Socket;
 
 public class CallerHandlerThread implements Runnable {
 
-    String status;
     Socket connection;
 
     CallerHandlerThread(Socket connection){
-        this.status = status;
         this.connection = connection;
     }
 
@@ -30,13 +28,13 @@ public class CallerHandlerThread implements Runnable {
                     toPeer.writeBytes("BUSY");
                     return;
                 }
-                if(fromPeer.readLine().equals("INVITE")){
+                if(fromPeer.readLine().contains("INVITE")){
                     StateHandler.setStateCalling();
-                    toPeer.writeBytes("TRO");
-                    if(fromPeer.readLine().equals("ACK")){
+                    toPeer.writeBytes("TRO\n");
+                    if(fromPeer.readLine().contains("ACK")){
                         StateHandler.setStateInSession();
                         System.out.println("Press x if you want to hang up.");
-                        String ip =connection.getInetAddress().getHostAddress();
+                        String ip = connection.getInetAddress().getHostAddress();
                         audioReceiveThread = new Thread(new AudioReceive(ip));
                         audioReceiveThread.start();
                         while(StateHandler.isInSession()){
