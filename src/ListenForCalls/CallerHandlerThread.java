@@ -26,7 +26,7 @@ public class CallerHandlerThread implements Runnable {
             try {
                 BufferedReader fromPeer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 DataOutputStream toPeer = new DataOutputStream(connection.getOutputStream());
-                if(status.equals("BUSY")){
+                if(StateHandler.isInSession()){
                     toPeer.writeBytes("BUSY");
                     return;
                 }

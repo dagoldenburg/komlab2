@@ -12,6 +12,7 @@ public class StateHandler {
         if(state.equals("INSESSION")){
             return true;
         }
+        return false;
     }
 
     public static void setStateCalling(){
