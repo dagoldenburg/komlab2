@@ -28,6 +28,7 @@ public class AudioReceive extends Audio implements Runnable{
     private void send() throws IOException{
         DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
         udpSocket.receive(receivePacket);
+        speakers.write(receiveBuffer, 0, receiveBuffer.length);
     }
 
     @Override

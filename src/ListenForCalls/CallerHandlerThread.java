@@ -2,6 +2,7 @@ package ListenForCalls;
 
 import AudioClasses.AudioReceive;
 import AudioClasses.AudioSend;
+import Logic.StateHandler;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -30,26 +31,28 @@ public class CallerHandlerThread implements Runnable {
                     return;
                 }
                 if(fromPeer.readLine().equals("INVITE")){
-                    CallListener.setStatus("BUSY");
+                    StateHandler.setStateCalling();
                     toPeer.writeBytes("TRO");
                     if(fromPeer.readLine().equals("ACK")){
+                        StateHandler.setStateInSession();
                         System.out.println("Press x if you want to hang up.");
                         String ip =connection.getInetAddress().getHostAddress();
-                        AudioSend as = new AudioSend(ip);
-                        audioReceiveThread = new Thread(new AudioSend(ip));
+                        audioReceiveThread = new Thread(new AudioReceive(ip));
                         audioReceiveThread.start();
+                        while(StateHandler.isInSession()){
+                            if(fromPeer.readLine().equals("BYE")){
+                                toPeer.writeBytes("ACK");
+                                StateHandler.setStateClosing();
+                            }
+                        }
                     }else throw new IOException();
-                    if(fromPeer.readLine().equals("BYE")){
-                        //TODO: send OK?
-                    }
                 }else throw new IOException();
-
             }catch(IOException e){
                 e.printStackTrace();
-            }finally{
+            }finally{ // closing
                 try {
                     connection.close();
-                    CallListener.setStatus("ACK");
+                    StateHandler.setStateWaiting();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

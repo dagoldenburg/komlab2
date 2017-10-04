@@ -16,7 +16,6 @@ public class Startup {
     private static Socket socket;
     private static BufferedReader fromPeer;
     private static DataOutputStream toPeer;
-    private String name;
 
     public static void main(String[] args){
 
@@ -30,18 +29,17 @@ public class Startup {
         t.start();
 
         Scanner s = new Scanner(System.in);
-        String input = new String();
+        String input;
         String ip;
-        String[] split;
-        boolean inSession;
         Thread audioSendThread = new Thread();
         while(true){ //waiting
             System.out.println("Welcome, if you want to call someone write: call <ip>");
             input = s.nextLine();
             try {
                 if (input.substring(0, 5).equalsIgnoreCase("call ")) {
+                    StateHandler.setStateCalling();
                     ip = input.substring(5);
-                    Socket socket = new Socket(ip, Ports.TCP_SEND);
+                    socket = new Socket(ip, Ports.TCP_SEND);
                     toPeer = new DataOutputStream(socket.getOutputStream());
                     fromPeer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     socket.setSoTimeout(10000);
@@ -50,17 +48,15 @@ public class Startup {
                         throw new IOException();
                     }
                     toPeer.writeBytes("ACK");
-                    inSession = true;
-                    while(inSession=true){ // in session
+                    StateHandler.setStateInSession();
+                    while(StateHandler.isInSession()){ // in session
                         System.out.println("Press x if you want to hang up.");
-                        //TODO: skicka voicepackets i annan tråd
-                        AudioSend as = new AudioSend(ip);
                         audioSendThread = new Thread(new AudioSend(ip));
                         audioSendThread.start();
                         input = s.nextLine();
                         if(input.equalsIgnoreCase("x")){
                             toPeer.writeBytes("BYE");
-                            inSession = false;
+                            StateHandler.setStateClosing();
                         }
                     }
                 }
@@ -74,9 +70,10 @@ public class Startup {
                 e.printStackTrace();
             }finally{
                 try {
-                    //TODO: se till att voicepacket tråden dödas när denna tcp connection dör
+                    StateHandler.setStateClosing();
                     audioSendThread.interrupt();
                     socket.close();
+                    StateHandler.setStateWaiting();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
