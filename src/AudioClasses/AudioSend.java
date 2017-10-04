@@ -2,6 +2,7 @@ package AudioClasses;
 
 import ListenForCalls.CallListener;
 import Logic.Ports;
+import Logic.StateHandler;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class AudioSend extends Audio implements Runnable {
     @Override
     public void run() {
         try {
-            while (CallListener.getStatus().equals("BUSY")) {
+            while (StateHandler.isInSession()) {
                 send();
             }
         }catch(IOException e){

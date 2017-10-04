@@ -15,14 +15,14 @@ public class CallerHandlerThread implements Runnable {
     String status;
     Socket connection;
 
-    CallerHandlerThread(String status,Socket connection){
+    CallerHandlerThread(Socket connection){
         this.status = status;
         this.connection = connection;
     }
 
     @Override
     public void run() {
-        Thread audioReceiveThread = new Thread();
+        Thread audioReceiveThread;
             try {
                 BufferedReader fromPeer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 DataOutputStream toPeer = new DataOutputStream(connection.getOutputStream());

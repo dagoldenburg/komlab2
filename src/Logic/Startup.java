@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -39,7 +40,7 @@ public class Startup {
                 if (input.substring(0, 5).equalsIgnoreCase("call ")) {
                     StateHandler.setStateCalling();
                     ip = input.substring(5);
-                    socket = new Socket(ip, Ports.TCP_SEND);
+                    socket = new Socket(InetAddress.getByName(ip), Ports.TCP_SEND);
                     toPeer = new DataOutputStream(socket.getOutputStream());
                     fromPeer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     socket.setSoTimeout(10000);
@@ -63,7 +64,7 @@ public class Startup {
             } catch(SocketTimeoutException e){
                 System.out.println("Connection timed out");
             } catch(StringIndexOutOfBoundsException e){
-
+                e.printStackTrace();
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (IOException e) {

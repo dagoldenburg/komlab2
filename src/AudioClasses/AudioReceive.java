@@ -1,6 +1,7 @@
 package AudioClasses;
 
 import ListenForCalls.CallListener;
+import Logic.StateHandler;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class AudioReceive extends Audio implements Runnable{
     @Override
     public void run() {
         try {
-            while (CallListener.getStatus().equals("BUSY")) {
+            while (StateHandler.isInSession()) {
                 send();
             }
         }catch(IOException e){

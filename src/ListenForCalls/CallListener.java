@@ -12,17 +12,6 @@ import java.net.Socket;
 public class CallListener implements Runnable {
 
     private ServerSocket serverSocket;
-    private Socket socket;
-    private static String status = "ACK";
-
-    public static String getStatus(){
-        return status;
-    }
-    public static synchronized void setStatus(String status){
-        status = status;
-    }
-
-
     public CallListener() throws IOException{
         serverSocket = new ServerSocket(Ports.TCP_LISTEN);
     }
@@ -32,7 +21,7 @@ public class CallListener implements Runnable {
         while(true){
             try {
                 Socket connectionSocket = serverSocket.accept();
-                Thread t = new Thread(new CallerHandlerThread(status,connectionSocket));
+                Thread t = new Thread(new CallerHandlerThread(connectionSocket));
                 t.start();
             } catch (IOException e) {
                 e.printStackTrace();
