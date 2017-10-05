@@ -20,7 +20,11 @@ public class Startup {
     private static DataOutputStream toPeer;
 
     public static void main(String[] args){
-
+        String INVITE = "INVITE";
+        if(args.length>0){
+            System.out.println("faulty mode");
+            INVITE = "FAULTY";
+        }
         Thread t = null;
         try {
             t = new Thread(new CallListener());
@@ -33,8 +37,8 @@ public class Startup {
         Scanner s = new Scanner(System.in);
         String input;
         String ip;
-        Thread audioSendThread = null;
-        Thread audioReceiveThread = null;
+        Thread audioSendThread = new Thread();
+        Thread audioReceiveThread = new Thread();
         while(true){ //waiting
             System.out.println("Welcome, if you want to call someone write: call <ip>");
             input = s.nextLine();
@@ -45,9 +49,13 @@ public class Startup {
                     socket = new Socket(InetAddress.getByName(ip), Ports.TCP_SEND);
                     toPeer = new DataOutputStream(socket.getOutputStream());
                     fromPeer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    toPeer.writeBytes("INVITE\n");
-                    if(!fromPeer.readLine().contains("TRO")){
-                        throw new IOException();
+                    toPeer.writeBytes(INVITE+"\n");
+                    try {
+                        if (!fromPeer.readLine().contains("TRO")) {
+                            throw new IOException();
+                        }
+                    }catch(NullPointerException e){
+                        throw new StringIndexOutOfBoundsException();
                     }
                     toPeer.writeBytes("ACK\n");
                     StateHandler.setStateInSession();
@@ -60,24 +68,22 @@ public class Startup {
                         input = s.nextLine();
                         if(input.equalsIgnoreCase("x")){
                             toPeer.writeBytes("BYE\n");
-                            StateHandler.setStateClosing();
                         }
                     }
                 }
             } catch(SocketTimeoutException e){
                 System.out.println("Connection timed out");
             } catch(StringIndexOutOfBoundsException e){
-
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
+                System.out.println("Faulty input");
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Unable to find connection to this address");
             }finally{
                 try {
-                    StateHandler.setStateClosing();
                     audioSendThread.interrupt();
                     audioReceiveThread.interrupt();
-                    socket.close();
+                    try {
+                        socket.close();
+                    }catch(NullPointerException e3){}
                     StateHandler.setStateWaiting();
                 } catch (IOException e) {
                     e.printStackTrace();

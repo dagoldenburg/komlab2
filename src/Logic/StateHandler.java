@@ -15,17 +15,19 @@ public class StateHandler {
         return false;
     }
 
+    public static boolean isCalling(){
+        if(state.equals("CALLING")){
+            return true;
+        }
+        return false;
+    }
+
     public static void setStateCalling(){
         state = "CALLING";
     }
-    public static void setStateClosing(){
-        state = "CLOSING";
-    }
-
     public static void setStateInSession(){
         state = "INSESSION";
     }
-
     public static void setStateWaiting(){
         state = "WAITING";
     }

@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -13,7 +14,12 @@ public class CallListener implements Runnable {
 
     private ServerSocket serverSocket;
     public CallListener() throws IOException{
-        serverSocket = new ServerSocket(Ports.TCP_LISTEN);
+        try {
+            serverSocket = new ServerSocket(Ports.TCP_LISTEN);
+        }catch(BindException e){
+            System.out.println("Incrementing tcp listen port by 1");
+            serverSocket = new ServerSocket(Ports.TCP_LISTEN+1);
+        }
     }
 
     @Override

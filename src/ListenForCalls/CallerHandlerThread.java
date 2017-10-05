@@ -9,6 +9,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class CallerHandlerThread implements Runnable {
 
@@ -20,17 +21,23 @@ public class CallerHandlerThread implements Runnable {
 
     @Override
     public void run() {
-        Thread audioReceiveThread = null;
-        Thread audioSendThread = null;
+        Thread audioReceiveThread = new Thread();
+        Thread audioSendThread = new Thread();
+        Scanner s = new Scanner(System.in);
             try {
                 BufferedReader fromPeer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 DataOutputStream toPeer = new DataOutputStream(connection.getOutputStream());
-                if(StateHandler.isInSession()){
+                if(StateHandler.isInSession() || StateHandler.isCalling()){
                     toPeer.writeBytes("BUSY\n");
                     return;
                 }
                 if(fromPeer.readLine().contains("INVITE")){
                     StateHandler.setStateCalling();
+                    String input = s.nextLine();
+                    System.out.println("You are being called, do you want to accept? Y/N");
+                    if(input.equalsIgnoreCase("N")){
+                        return;
+                    }
                     toPeer.writeBytes("TRO\n");
                     if(fromPeer.readLine().contains("ACK")){
                         StateHandler.setStateInSession();
@@ -43,15 +50,15 @@ public class CallerHandlerThread implements Runnable {
                         while(StateHandler.isInSession()){
                             if(fromPeer.readLine().contains("BYE")){
                                 toPeer.writeBytes("ACK");
-                                StateHandler.setStateClosing();
                             }
                         }
-                    }else throw new IOException();
-                }else throw new IOException();
+                    }return;
+                }return;
             }catch(IOException e){
                 e.printStackTrace();
             }finally{ // closing
                 try {
+                    System.out.println("ended");
                     connection.close();
                     audioReceiveThread.interrupt();
                     audioSendThread.interrupt();
