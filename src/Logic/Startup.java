@@ -20,11 +20,6 @@ public class Startup {
     private static DataOutputStream toPeer;
 
     public static void main(String[] args){
-        String INVITE = "INVITE";
-        if(args.length>0){
-            System.out.println("faulty mode");
-            INVITE = "FAULTY";
-        }
         Thread t = null;
         try {
             t = new Thread(new CallListener());
@@ -49,10 +44,13 @@ public class Startup {
                     socket = new Socket(InetAddress.getByName(ip), Ports.TCP_SEND);
                     toPeer = new DataOutputStream(socket.getOutputStream());
                     fromPeer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    toPeer.writeBytes(INVITE+"\n");
+                    toPeer.writeBytes("INVITE\n");
                     try {
-                        if (!fromPeer.readLine().contains("TRO")) {
-                            throw new IOException();
+                        if(args.length>0){
+                            System.out.println("faulty mode");
+                            toPeer.writeBytes("FAULTY\n");
+                        }else if (!fromPeer.readLine().contains("TRO")) {
+                            throw new BusyUserException();
                         }
                     }catch(NullPointerException e){
                         throw new StringIndexOutOfBoundsException();
@@ -75,7 +73,10 @@ public class Startup {
                 System.out.println("Connection timed out");
             } catch(StringIndexOutOfBoundsException e){
                 System.out.println("Faulty input");
-            } catch (IOException e) {
+            }catch(BusyUserException e){
+                System.out.println("The user you are calling is busy in another call");
+            }catch (IOException e) {
+                e.printStackTrace();
                 System.out.println("Unable to find connection to this address");
             }finally{
                 try {
@@ -83,7 +84,8 @@ public class Startup {
                     audioReceiveThread.interrupt();
                     try {
                         socket.close();
-                    }catch(NullPointerException e3){}
+                    } catch (NullPointerException e3) {
+                    }
                     StateHandler.setStateWaiting();
                 } catch (IOException e) {
                     e.printStackTrace();

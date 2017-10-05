@@ -9,14 +9,16 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 public class Audio {
-    DatagramSocket udpSocket;
+    static DatagramSocket udpSocket;
     AudioFormat format;
     DataLine.Info info;
 
     public Audio(){
         format = new AudioFormat(8000.0f, 16, 1, true, true);
         try {
-            udpSocket = new DatagramSocket(Ports.UDP_LISTEN);
+            if(udpSocket==null) {
+                udpSocket = new DatagramSocket(Ports.UDP_LISTEN);
+            }
         } catch (SocketException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package ListenForCalls;
 
 import Logic.Ports;
+import Logic.StateHandler;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -26,9 +27,9 @@ public class CallListener implements Runnable {
     public void run(){
         while(true){
             try {
-                Socket connectionSocket = serverSocket.accept();
-                Thread t = new Thread(new CallerHandlerThread(connectionSocket));
-                t.start();
+                    Socket connectionSocket = serverSocket.accept();
+                    Thread t = new Thread(new CallerHandlerThread(connectionSocket));
+                    t.start();
             } catch (IOException e) {
                 e.printStackTrace();
             }

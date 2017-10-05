@@ -33,8 +33,8 @@ public class CallerHandlerThread implements Runnable {
                 }
                 if(fromPeer.readLine().contains("INVITE")){
                     StateHandler.setStateCalling();
-                    String input = s.nextLine();
                     System.out.println("You are being called, do you want to accept? Y/N");
+                    String input = s.nextLine();
                     if(input.equalsIgnoreCase("N")){
                         return;
                     }
@@ -50,19 +50,19 @@ public class CallerHandlerThread implements Runnable {
                         while(StateHandler.isInSession()){
                             if(fromPeer.readLine().contains("BYE")){
                                 toPeer.writeBytes("ACK");
+                                StateHandler.setStateWaiting();
                             }
                         }
                     }return;
                 }return;
             }catch(IOException e){
-                e.printStackTrace();
+                StateHandler.setStateWaiting();
             }finally{ // closing
                 try {
                     System.out.println("ended");
                     connection.close();
                     audioReceiveThread.interrupt();
                     audioSendThread.interrupt();
-                    StateHandler.setStateWaiting();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
