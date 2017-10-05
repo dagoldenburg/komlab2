@@ -46,11 +46,15 @@ public class AudioSend extends Audio implements Runnable {
                 send();
             }
         }catch(IOException e){
-            e.printStackTrace();
             return;
         }finally{
             microphone.close();
-            udpSocket.close();
+            try {
+                udpSocket.close();
+                udpSocket = null;
+            }catch(NullPointerException e){
+
+            }
         }
     }
 }

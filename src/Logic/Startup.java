@@ -66,13 +66,14 @@ public class Startup {
                         input = s.nextLine();
                         if(input.equalsIgnoreCase("x")){
                             toPeer.writeBytes("BYE\n");
+                            StateHandler.setStateWaiting();
                         }
+                        System.out.println(socket.isConnected());
                     }
                 }
             } catch(SocketTimeoutException e){
                 System.out.println("Connection timed out");
             } catch(StringIndexOutOfBoundsException e){
-                System.out.println("Faulty input");
             }catch(BusyUserException e){
                 System.out.println("The user you are calling is busy in another call");
             }catch (IOException e) {

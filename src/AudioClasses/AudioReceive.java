@@ -41,8 +41,12 @@ public class AudioReceive extends Audio implements Runnable{
         }catch(IOException e){
             return;
         }finally{
-            speakers.close();
-            udpSocket.close();
+            speakers.close();try {
+                udpSocket.close();
+                udpSocket = null;
+            }catch(NullPointerException e){
+
+            }
         }
     }
 }
