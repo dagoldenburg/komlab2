@@ -19,17 +19,8 @@ public class Startup {
     private static BufferedReader fromPeer;
     private static DataOutputStream toPeer;
 
-    public static void main(String[] args){
-        Thread t = null;
-        try {
-            t = new Thread(new CallListener());
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
-        t.start();
-
-        Scanner s = new Scanner(System.in);
+    public static void main(String[] args) {
+/*
         String input;
         String ip;
         Thread audioSendThread = new Thread();
@@ -94,5 +85,6 @@ public class Startup {
             }
         }
     }
-
+*/
+    }
 }

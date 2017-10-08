@@ -12,7 +12,7 @@ public abstract class State {
     public State SendBusy(){return new WaitingState();}
     public State ReceivedOK(){return  new WaitingState();}
     public State SendOK(){return new WaitingState();}
-    public State ReceiveBye(){return new WaitingState();}
+    public State ReceivedBye(){return new WaitingState();}
     public State SendBye(){return new WaitingState();}
 
 

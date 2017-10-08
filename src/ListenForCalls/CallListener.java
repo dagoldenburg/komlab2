@@ -1,6 +1,8 @@
 package ListenForCalls;
 
+import Logic.Main;
 import Logic.Ports;
+import States.StateHandler;
 
 import java.io.IOException;
 import java.net.BindException;
@@ -23,14 +25,14 @@ public class CallListener implements Runnable {
     public void run(){
         while(true){
             try {
-                    Socket connectionSocket = serverSocket.accept();
-                    Thread t = new Thread(new CallerHandlerThread(connectionSocket));
-                    t.start();
+                Socket connectionSocket = serverSocket.accept();
+                Thread t = new Thread(new CallerHandlerThread(connectionSocket));
+                t.start();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
     }
+
 
 }

@@ -1,6 +1,8 @@
 package AudioClasses;
 
 import ListenForCalls.CallListener;
+import Logic.Main;
+import States.InSessionState;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -8,13 +10,11 @@ import java.net.DatagramPacket;
 
 public class AudioReceive extends Audio implements Runnable{
     SourceDataLine speakers;
-    String ip;
     DataLine.Info info;
     byte[] receiveBuffer;
-    public AudioReceive(String ip){
+    public AudioReceive(){
         super();
         try {
-            this.ip = ip;
             info = new DataLine.Info(SourceDataLine.class, format);
             speakers = (SourceDataLine) AudioSystem.getLine(info);
             speakers.open(format);
@@ -34,7 +34,7 @@ public class AudioReceive extends Audio implements Runnable{
     @Override
     public void run() {
         try {
-            while (StateHandler.isInSession()) {
+            while (Main.stateHandler.getCurrentState() instanceof InSessionState) {
                 send();
             }
         }catch(IOException e){
