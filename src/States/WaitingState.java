@@ -15,7 +15,7 @@ public class WaitingState extends  State {
 
 
     Scanner userInput;
-
+    String input = new String();
 
 
     public void stateRun(){
@@ -23,7 +23,7 @@ public class WaitingState extends  State {
         {
             public void run()
             {
-                if( userInput.equals("") )
+                if( input.equals("") )
                 {
 
                 }
@@ -35,7 +35,6 @@ public class WaitingState extends  State {
 
         }
         userInput = new Scanner(System.in);
-        String input;
         String ip;
         System.out.println("Welcome, if you want to call someone write: call <ip>");
         while(true){

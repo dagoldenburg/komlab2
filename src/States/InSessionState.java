@@ -32,6 +32,7 @@ public class InSessionState extends State {
         return new ClosingState();
     }
 
+    String input = new String();
     @Override
     public void stateRun() {
         Scanner s = new Scanner(System.in);
@@ -53,13 +54,14 @@ public class InSessionState extends State {
         System.out.println("Write x if you want to hang up");
         while(true){
             timer.schedule( task, 1000 );
-            if(s.nextLine().equalsIgnoreCase("x")){
+            input = s.nextLine();
+            timer.cancel();
+            if(input.equalsIgnoreCase("x")){
                 Main.stateHandler.invokeSendBye();
             }
             if(StateHandler.beingCalled==false){
                 Main.stateHandler.invokeReceivedBye();
             }
-            timer.cancel();
         }
     }
 
