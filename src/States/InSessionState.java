@@ -17,19 +17,6 @@ public class InSessionState extends State {
         audioReceiveThread.stop();
     }
 
-    InSessionState(){
-        Thread audioSendThread = new Thread(new AudioSend());
-        audioSendThread.start();
-        Thread audioReceiveThread = new Thread(new AudioReceive());
-        audioReceiveThread.start();
-        System.out.println("Write x if you want to hang up");
-        Scanner s = new Scanner(System.in);
-        while(true){
-            if(s.nextLine().equalsIgnoreCase("x")){
-                Main.stateHandler.invokeSendBye();
-            }
-        }
-    }
 
     @Override
     public State SendBye() {
@@ -41,6 +28,21 @@ public class InSessionState extends State {
         }
         killThreads();
         return new ClosingState();
+    }
+
+    @Override
+    public void stateRun() {
+        Thread audioSendThread = new Thread(new AudioSend());
+        audioSendThread.start();
+        Thread audioReceiveThread = new Thread(new AudioReceive());
+        audioReceiveThread.start();
+        System.out.println("Write x if you want to hang up");
+        Scanner s = new Scanner(System.in);
+        while(true){
+            if(s.nextLine().equalsIgnoreCase("x")){
+                Main.stateHandler.invokeSendBye();
+            }
+        }
     }
 
     @Override

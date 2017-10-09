@@ -7,7 +7,8 @@ import java.util.Scanner;
 
 public class CalledState extends State {
 
-    CalledState(){
+    @Override
+    public void stateRun() {
         Scanner s = new Scanner(System.in);
         while(true){
             System.out.println("You are being called, press Y to accept and N to decline");

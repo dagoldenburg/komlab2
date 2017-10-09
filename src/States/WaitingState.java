@@ -14,8 +14,12 @@ public class WaitingState extends  State {
 
     Scanner userInput;
 
-    public WaitingState() {
-        Main.stateHandler.removeConnection();
+    public void stateRun(){
+        try {
+            Main.stateHandler.removeConnection();
+        }catch(NullPointerException e){
+
+        }
         userInput = new Scanner(System.in);
         String input;
         String ip;
@@ -32,7 +36,7 @@ public class WaitingState extends  State {
                             StateHandler.toPeer.writeBytes("FAULTY\n");
                         }else
                             StateHandler.toPeer.writeBytes("INVITE\n");
-                            Main.stateHandler.invokeSendInvite();
+                        Main.stateHandler.invokeSendInvite();
                     }catch(IOException e){
 
                     }

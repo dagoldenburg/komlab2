@@ -5,7 +5,9 @@ import Logic.Main;
 import java.io.IOException;
 
 public class CallingState extends State {
-    CallingState(){
+
+    @Override
+    public void stateRun() {
         String input = null;
         try {
             input = StateHandler.fromPeer.readLine();

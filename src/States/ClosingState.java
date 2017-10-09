@@ -6,7 +6,9 @@ import java.io.IOException;
 
 public class ClosingState extends State  {
 
-    ClosingState() {
+
+    @Override
+    public void stateRun() {
         try {
             if (StateHandler.fromPeer.readLine().contains("OK")) {
                 Main.stateHandler.invokeReceivedOK();
@@ -15,7 +17,8 @@ public class ClosingState extends State  {
             Main.stateHandler.invokeReceivedOK();
         }
     }
-        @Override
+
+    @Override
     public State ReceivedOK() {
         return new WaitingState();
     }

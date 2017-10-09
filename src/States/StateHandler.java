@@ -8,9 +8,9 @@ import java.net.Socket;
 
 public class StateHandler {
     private State currentState;
-    public static Socket socket;
-    public static DataOutputStream toPeer;
-    public static BufferedReader fromPeer;
+    public static Socket socket = null;
+    public static DataOutputStream toPeer = null;
+    public static BufferedReader fromPeer = null;
 
     public void makeNewConnection(Socket socket){
         try {
@@ -32,19 +32,18 @@ public class StateHandler {
         return currentState;
     }
 
-
-
-    public StateHandler(){
-        currentState  =  new WaitingState();
+    public void initStates(){
+        currentState = new WaitingState();
+        currentState.stateRun();
     }
 
-    public void invokeReceivedInvite(){currentState = currentState.ReceivedInvite();}
-    public void invokeSendInvite(){currentState = currentState.SendInvite();}
-    public void invokeSendTRO(){currentState = currentState.SendTRO();}
-    public void invokeSendBusy(){currentState = currentState.SendBusy();}
-    public void invokeSendBye(){currentState = currentState.SendBye();}
-    public void invokeReceivedTRO(){currentState = currentState.ReceivedTRO();}
-    public void invokeReceivedOK(){currentState = currentState.ReceivedOK();}
-    public void invokeReceivedBye(){currentState = currentState.ReceivedBye();}
-    public void invokeReceivedBusy(){currentState = currentState.ReceivedBusy();}
+    public void invokeReceivedInvite(){currentState = currentState.ReceivedInvite();currentState.stateRun();}
+    public void invokeSendInvite(){currentState = currentState.SendInvite();currentState.stateRun();}
+    public void invokeSendTRO(){currentState = currentState.SendTRO();currentState.stateRun();}
+    public void invokeSendBusy(){currentState = currentState.SendBusy();currentState.stateRun();}
+    public void invokeSendBye(){currentState = currentState.SendBye();currentState.stateRun();}
+    public void invokeReceivedTRO(){currentState = currentState.ReceivedTRO();currentState.stateRun();}
+    public void invokeReceivedOK(){currentState = currentState.ReceivedOK();currentState.stateRun();}
+    public void invokeReceivedBye(){currentState = currentState.ReceivedBye();currentState.stateRun();}
+    public void invokeReceivedBusy(){currentState = currentState.ReceivedBusy();currentState.stateRun();}
 }
