@@ -22,12 +22,13 @@ public class CallerHandlerThread implements Runnable {
         if(Main.stateHandler.getCurrentState() instanceof WaitingState){
             System.out.println("setup connection");
             Main.stateHandler.makeNewConnection(connection);
+            StateHandler.beingCalled = true;
         }
-        Main.stateHandler.invokeReceivedInvite();
         while(StateHandler.socket!=null){
             try {
                 if(StateHandler.fromPeer.readLine().contains("BYE")){
-                    Main.stateHandler.invokeReceivedBye();
+                    System.out.println("Other end hung up");
+                    StateHandler.beingCalled = false;
                 }
             } catch (IOException e) {
                 e.printStackTrace();

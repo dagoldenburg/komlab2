@@ -11,6 +11,7 @@ public class StateHandler {
     public static Socket socket = null;
     public static DataOutputStream toPeer = null;
     public static BufferedReader fromPeer = null;
+    public static boolean beingCalled = false;
 
     public void makeNewConnection(Socket socket){
         try {

@@ -6,6 +6,8 @@ import Logic.Main;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class InSessionState extends State {
 
@@ -32,16 +34,32 @@ public class InSessionState extends State {
 
     @Override
     public void stateRun() {
+        Scanner s = new Scanner(System.in);
+        TimerTask task = new TimerTask()
+        {
+            public void run()
+            {
+                if( s.equals("") )
+                {
+
+                }
+            }
+        };
+        Timer timer = new Timer();
         Thread audioSendThread = new Thread(new AudioSend());
         audioSendThread.start();
         Thread audioReceiveThread = new Thread(new AudioReceive());
         audioReceiveThread.start();
         System.out.println("Write x if you want to hang up");
-        Scanner s = new Scanner(System.in);
         while(true){
+            timer.schedule( task, 1000 );
             if(s.nextLine().equalsIgnoreCase("x")){
                 Main.stateHandler.invokeSendBye();
             }
+            if(StateHandler.beingCalled==false){
+                Main.stateHandler.invokeReceivedBye();
+            }
+            timer.cancel();
         }
     }
 

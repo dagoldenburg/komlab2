@@ -8,13 +8,27 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class WaitingState extends  State {
 
 
     Scanner userInput;
 
+
+
     public void stateRun(){
+        TimerTask task = new TimerTask()
+        {
+            public void run()
+            {
+                if( userInput.equals("") )
+                {
+
+                }
+            }
+        };
         try {
             Main.stateHandler.removeConnection();
         }catch(NullPointerException e){
@@ -23,9 +37,15 @@ public class WaitingState extends  State {
         userInput = new Scanner(System.in);
         String input;
         String ip;
+        System.out.println("Welcome, if you want to call someone write: call <ip>");
         while(true){
-            System.out.println("Welcome, if you want to call someone write: call <ip>");
+            Timer timer = new Timer();
+            timer.schedule( task, 1000 );
             input = userInput.nextLine();
+            timer.cancel();
+            if(StateHandler.beingCalled == true){
+                Main.stateHandler.invokeReceivedInvite();
+            }
             try {
                 if (input.substring(0, 5).equalsIgnoreCase("call ")) {
                     ip = input.substring(5);
