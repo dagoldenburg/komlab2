@@ -33,8 +33,7 @@ public class AudioSend extends Audio implements Runnable {
     }
     private void send() throws IOException{
             microphone.read(sendBuffer, 0, sendBuffer.length);
-            System.out.println(StateHandler.socket.getInetAddress().toString());
-            DatagramPacket packet = new DatagramPacket(sendBuffer, sendBuffer.length, InetAddress.getByName(StateHandler.socket.getInetAddress().toString()), Ports.UDP_SEND);
+            DatagramPacket packet = new DatagramPacket(sendBuffer, sendBuffer.length, StateHandler.socket.getInetAddress(), Ports.UDP_SEND);
             super.udpSocket.send(packet);
     }
     @Override

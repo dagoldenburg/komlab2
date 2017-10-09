@@ -40,7 +40,7 @@ public class InSessionState extends State {
         {
             public void run()
             {
-                if( s.equals("") )
+                if( input.equals("") )
                 {
 
                 }

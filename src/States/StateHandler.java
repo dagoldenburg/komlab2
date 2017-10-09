@@ -15,7 +15,7 @@ public class StateHandler {
 
     public void makeNewConnection(Socket socket){
         try {
-            socket = socket;
+            this.socket = socket;
             toPeer = new DataOutputStream(socket.getOutputStream());
             fromPeer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         }catch(IOException e){
