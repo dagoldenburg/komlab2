@@ -17,7 +17,10 @@ public class CallerHandlerThread implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("received call");
+        System.out.println(Main.stateHandler.getCurrentState());
         if(Main.stateHandler.getCurrentState() instanceof WaitingState){
+            System.out.println("setup connection");
             Main.stateHandler.makeNewConnection(connection);
         }
         Main.stateHandler.invokeReceivedInvite();
