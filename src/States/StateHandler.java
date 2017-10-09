@@ -12,6 +12,8 @@ public class StateHandler {
     public static DataOutputStream toPeer;
     public static BufferedReader fromPeer;
 
+
+
     public void makeNewConnection(Socket socket){
         try {
             socket = socket;
@@ -32,9 +34,7 @@ public class StateHandler {
         return currentState;
     }
 
-
-
-    public StateHandler(){
+    public void initStates(){
         currentState  =  new WaitingState();
     }
 

@@ -25,6 +25,7 @@ public class CallListener implements Runnable {
     public void run(){
         while(true){
             try {
+                System.out.println("server online");
                 Socket connectionSocket = serverSocket.accept();
                 Thread t = new Thread(new CallerHandlerThread(connectionSocket));
                 t.start();

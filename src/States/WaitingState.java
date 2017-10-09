@@ -15,7 +15,16 @@ public class WaitingState extends  State {
     Scanner userInput;
 
     public WaitingState() {
-        Main.stateHandler.removeConnection();
+
+        if(Main.stateHandler == null){
+            System.out.println("ass");
+        }
+
+        try {
+            Main.stateHandler.removeConnection();
+        }catch(NullPointerException e){
+
+        }
         userInput = new Scanner(System.in);
         String input;
         String ip;
@@ -49,6 +58,7 @@ public class WaitingState extends  State {
     }
 
     public State ReceivedInvite(){
+        System.out.println("invite");
         return new CalledState();
     }
 

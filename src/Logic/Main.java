@@ -6,7 +6,7 @@ import States.StateHandler;
 import java.io.IOException;
 
 public class Main {
-    public static StateHandler stateHandler = new StateHandler();
+    public static StateHandler stateHandler;
     static boolean faultyMode;
 
     public static boolean getFaultyMode(){
@@ -24,5 +24,7 @@ public class Main {
             System.exit(-1);
         }
         t.start();
+        stateHandler = new StateHandler();
+        stateHandler.initStates();
     }
 }
