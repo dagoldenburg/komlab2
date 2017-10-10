@@ -55,6 +55,7 @@ public class AudioSend extends Audio implements Runnable {
             }catch(NullPointerException e){
 
             }
+            return;
         }
     }
 }
