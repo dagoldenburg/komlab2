@@ -25,11 +25,6 @@ public class AudioSend extends Audio implements Runnable {
     public AudioSend(){
         super();
         try {
-            try {
-                ip = InetAddress.getByName(StateHandler.ip);
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            }
             info  = new DataLine.Info(TargetDataLine.class, format);
             microphone = (TargetDataLine) AudioSystem.getLine(info);
             microphone.open(format);
@@ -43,7 +38,7 @@ public class AudioSend extends Audio implements Runnable {
             microphone.read(sendBuffer, 0, sendBuffer.length);
             DatagramPacket packet = new DatagramPacket(sendBuffer,
                     sendBuffer.length,
-                    ip,
+                    StateHandler.getSocket().getInetAddress(),
                     Ports.UDP_SEND);
             super.udpSocket.send(packet);
     }
