@@ -31,7 +31,7 @@ public class AudioReceive extends Audio implements Runnable{
         try {
             udpSocket.receive(receivePacket);
         }catch(SocketException e){
-            System.out.println("socketexception");
+
         }
         speakers.write(receiveBuffer, 0, receiveBuffer.length);
     }

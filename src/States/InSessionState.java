@@ -73,7 +73,7 @@ public class InSessionState extends State {
     @Override
     public State ReceivedBye(){
         try {
-            StateHandler.getToPeer().writeBytes("OK");
+            StateHandler.getToPeer().writeBytes("OK\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

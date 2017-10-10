@@ -49,6 +49,11 @@ public class CalledState extends State {
 
     @Override
     public State SendBusy(){
+        try {
+            StateHandler.getToPeer().writeBytes("BUSY\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return new WaitingState();
     }
 
