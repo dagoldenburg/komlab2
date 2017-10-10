@@ -23,13 +23,15 @@ public class CallerHandlerThread implements Runnable {
         }
         while(StateHandler.getSocket()!=null) {
             if (StateHandler.isBeingCalled() && StateHandler.isCalling()) {
-                try {
-                    if (StateHandler.getFromPeer().readLine().contains("BYE")) {
-                        System.out.println("Other end hung up");
-                        StateHandler.setBeingCalled(false);
+                while (true) {
+                    try {
+                        if (StateHandler.getFromPeer().readLine().contains("BYE")) {
+                            System.out.println("Other end hung up");
+                            StateHandler.setBeingCalled(false);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }
