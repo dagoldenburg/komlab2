@@ -34,7 +34,7 @@ public class InSessionState extends State {
 
     @Override
     public void stateRun() {
-        Thread audioSendThread = new Thread(new AudioSend(StateHandler.getSocket()));
+        Thread audioSendThread = new Thread(new AudioSend());
         audioSendThread.start();
         Thread audioReceiveThread = new Thread(new AudioReceive());
         audioReceiveThread.start();

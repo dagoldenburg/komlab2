@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class AudioSend extends Audio implements Runnable {
     TargetDataLine microphone;
@@ -21,10 +22,14 @@ public class AudioSend extends Audio implements Runnable {
 
     //https://stackoverflow.com/questions/25798200/java-record-mic-to-byte-array-and-play-sound
 
-    public AudioSend(Socket socket){
+    public AudioSend(){
         super();
         try {
-            ip = socket.getInetAddress();
+            try {
+                ip = InetAddress.getByName(StateHandler.ip);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
             info  = new DataLine.Info(TargetDataLine.class, format);
             microphone = (TargetDataLine) AudioSystem.getLine(info);
             microphone.open(format);
