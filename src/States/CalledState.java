@@ -35,7 +35,6 @@ public class CalledState extends State {
     @Override
     public State SendTRO() {
         try {
-            System.out.println("nigg bigga");
             StateHandler.toPeer.writeBytes("TRO\n");
             if(StateHandler.fromPeer.readLine().contains("ACK")){
                 return new InSessionState();

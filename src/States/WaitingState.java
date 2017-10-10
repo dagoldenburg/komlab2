@@ -19,16 +19,16 @@ public class WaitingState extends  State {
         }catch(NullPointerException e){
 
         }
+        StateHandler.setBeingCalled(false);
+        StateHandler.setCalling(false);
         System.out.println("Welcome, if you want to call someone write: call <ip>");
         while(true){
             if(StateHandler.isBeingCalled()){
                 Main.stateHandler.invokeReceivedInvite();
             }
             if(StateHandler.isCalling()) {
-                System.out.println("calling 1");
                 try {
                     Main.stateHandler.makeNewConnection(new Socket(InetAddress.getByName(StateHandler.ip), Ports.TCP_SEND));
-                    System.out.println("calling 2");
                     try {
                         if (Main.getFaultyMode()) {
                             System.out.println("faulty mode");

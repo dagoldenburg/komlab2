@@ -39,6 +39,8 @@ public class InSessionState extends State {
         Thread audioReceiveThread = new Thread(new AudioReceive());
         audioReceiveThread.start();
         System.out.println("Write x if you want to hang up");
+        StateHandler.setCalling(true);
+        StateHandler.setBeingCalled(true);
         while(true){
             if(!StateHandler.isCalling()){
                 Main.stateHandler.invokeSendBye();

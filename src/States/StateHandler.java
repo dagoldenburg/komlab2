@@ -33,11 +33,11 @@ public class StateHandler {
 
     public void makeNewConnection(Socket socket){
         try {
-            this.socket = socket;
             toPeer = new DataOutputStream(socket.getOutputStream());
             fromPeer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            System.out.println(socket.getInetAddress().getHostAddress());
         }catch(IOException e){
-
+            e.printStackTrace();
         }
     }
 

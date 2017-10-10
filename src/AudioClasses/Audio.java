@@ -17,6 +17,7 @@ public class Audio {
         format = new AudioFormat(8000.0f, 16, 1, true, true);
         try {
             if(udpSocket==null) {
+                System.out.println("make datagaermsocket");
                 udpSocket = new DatagramSocket(Ports.UDP_LISTEN);
             }
         } catch (SocketException e) {

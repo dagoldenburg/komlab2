@@ -28,6 +28,7 @@ public class CallingState extends State {
             StateHandler.toPeer.writeBytes("ACK\n");
             return new InSessionState();
         } catch (IOException e) {
+            e.printStackTrace();
             return new WaitingState();
         }
 
