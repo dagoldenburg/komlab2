@@ -51,7 +51,6 @@ public class AudioSend extends Audio implements Runnable {
         }catch(IOException e){
             return;
         }finally{
-            System.out.println("fin");
             microphone.close();
             try {
                 udpSocket.close();

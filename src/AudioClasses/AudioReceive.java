@@ -46,7 +46,6 @@ public class AudioReceive extends Audio implements Runnable{
             e.printStackTrace();
             return;
         }finally{
-            System.out.println("fin");
             speakers.close();try {
                 udpSocket.close();
                 udpSocket = null;

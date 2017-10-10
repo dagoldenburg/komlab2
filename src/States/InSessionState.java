@@ -14,9 +14,12 @@ public class InSessionState extends State {
 
     Thread audioSendThread = new Thread();
     Thread audioReceiveThread= new Thread();
+    Thread byeThread = new Thread();
+
     private void killThreads(){
         audioSendThread.stop();
         audioReceiveThread.stop();
+        byeThread.stop();
     }
 
 
@@ -34,6 +37,22 @@ public class InSessionState extends State {
 
     @Override
     public void stateRun() {
+        Runnable byeListener = () -> {
+            while (true) {
+                try {
+                    String input = StateHandler.getFromPeer().readLine();
+                    if (input.contains("BYE")) {
+                        System.out.println("Other end hung up");
+                        StateHandler.setBeingCalled(false);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        byeThread = new Thread(byeListener);
+        byeThread.start();
+
         Thread audioSendThread = new Thread(new AudioSend());
         audioSendThread.start();
         Thread audioReceiveThread = new Thread(new AudioReceive());
@@ -50,6 +69,8 @@ public class InSessionState extends State {
             }
         }
     }
+
+
 
     @Override
     public State ReceivedBye(){

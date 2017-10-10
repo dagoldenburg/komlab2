@@ -21,7 +21,7 @@ public class InputHandler implements Runnable {
                     StateHandler.ip = input.substring(5);
                     StateHandler.setCalling(true);
                 }
-            if (input.length() == 1) {
+            else if (input.length() == 1) {
                 if (input.equalsIgnoreCase("x") && Main.stateHandler.getCurrentState() instanceof InSessionState) {
                     StateHandler.setCalling(false);
                 }
@@ -30,7 +30,7 @@ public class InputHandler implements Runnable {
                 }
                 if (input.equalsIgnoreCase("n") && Main.stateHandler.getCurrentState() instanceof CalledState) {
                     CalledState.setYorN('n');
-                }
+                }else System.out.println("Invalid input");
             }
         }
     }

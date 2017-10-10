@@ -4,6 +4,7 @@ import Logic.Main;
 import States.StateHandler;
 import States.WaitingState;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -20,21 +21,12 @@ public class CallerHandlerThread implements Runnable {
         if(Main.stateHandler.getCurrentState() instanceof WaitingState){
             Main.stateHandler.makeNewConnection(connection);
             StateHandler.setBeingCalled(true);
-        }
-        while(StateHandler.getSocket()!=null) {
-            if (StateHandler.isBeingCalled() && StateHandler.isCalling()) {
-                while (true) {
-                    System.out.println("ostronballe");
-                    try {
-                        String input = StateHandler.getFromPeer().readLine();
-                        if (input.contains("OK") || input.contains("BYE")) {
-                            System.out.println("Other end hung up");
-                            StateHandler.setBeingCalled(false);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+        }else{
+            try {
+                DataOutputStream toPeer = new DataOutputStream(connection.getOutputStream());
+                toPeer.writeBytes("BUSY\n");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return;
