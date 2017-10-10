@@ -15,6 +15,7 @@ public class ClosingState extends State  {
                 Main.stateHandler.invokeReceivedOK();
             }
         } catch (IOException e) {
+            System.out.println("Connection broke");
             Main.stateHandler.invokeReceivedOK();
         }
 

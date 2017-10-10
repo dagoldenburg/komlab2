@@ -26,7 +26,6 @@ public class CallerHandlerThread implements Runnable {
                 DataOutputStream toPeer = new DataOutputStream(connection.getOutputStream());
                 toPeer.writeBytes("BUSY\n");
             } catch (IOException e) {
-                e.printStackTrace();
             }
         }
         return;

@@ -11,9 +11,8 @@ import java.net.SocketException;
 
 public class AudioReceive extends Audio implements Runnable{
     SourceDataLine speakers;
-    DataLine.Info info;
     byte[] receiveBuffer;
-    public AudioReceive(){
+    public AudioReceive() {
         super();
         try {
             info = new DataLine.Info(SourceDataLine.class, format);
@@ -21,8 +20,8 @@ public class AudioReceive extends Audio implements Runnable{
             speakers.open(format);
             speakers.start();
             receiveBuffer = new byte[1024];
-        }catch (LineUnavailableException e2) {
-            e2.printStackTrace();
+        } catch (LineUnavailableException e2) {
+            System.out.println("No speaker device");
         }
     }
 

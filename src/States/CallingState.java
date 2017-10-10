@@ -3,6 +3,7 @@ package States;
 import Logic.Main;
 
 import java.io.IOException;
+import java.net.SocketException;
 
 public class CallingState extends State {
 
@@ -11,13 +12,14 @@ public class CallingState extends State {
         String input = null;
         try {
             input = StateHandler.getFromPeer().readLine();
+            if (input.contains("TRO")) {
+                Main.stateHandler.invokeReceivedTRO();
+            } else if (input.contains("BUSY")) {
+                Main.stateHandler.invokeReceivedBusy();
+            }
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (input.contains("TRO")) {
-            Main.stateHandler.invokeReceivedTRO();
-        } else if (input.contains("BUSY")) {
-            Main.stateHandler.invokeReceivedBusy();
+            System.out.println("Connection broke");
+            Main.stateHandler.invokeSendTRO();
         }
     }
 

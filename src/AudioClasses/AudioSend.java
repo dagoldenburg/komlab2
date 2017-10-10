@@ -15,9 +15,7 @@ import java.net.UnknownHostException;
 
 public class AudioSend extends Audio implements Runnable {
     TargetDataLine microphone;
-    DataLine.Info info;
     byte[] sendBuffer;
-    InetAddress ip;
 //https://stackoverflow.com/questions/2083342/how-to-send-audio-stream-via-udp-in-java
 
     //https://stackoverflow.com/questions/25798200/java-record-mic-to-byte-array-and-play-sound
@@ -31,7 +29,7 @@ public class AudioSend extends Audio implements Runnable {
             microphone.start();
             sendBuffer = new byte[1024];
         }catch (LineUnavailableException e2) {
-            e2.printStackTrace();
+            System.out.println("No microphone device");
         }
     }
     private void send() throws IOException{

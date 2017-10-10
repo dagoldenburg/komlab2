@@ -42,7 +42,7 @@ public class CalledState extends State {
                 return new InSessionState();
             }
         }catch(IOException e){
-            e.printStackTrace();
+            System.out.println("Connection broke");
         }
         return new WaitingState();
     }
@@ -52,7 +52,7 @@ public class CalledState extends State {
         try {
             StateHandler.getToPeer().writeBytes("BUSY\n");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Connection broke");
         }
         return new WaitingState();
     }

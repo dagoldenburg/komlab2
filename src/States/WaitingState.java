@@ -37,7 +37,8 @@ public class WaitingState extends  State {
                             StateHandler.getToPeer().writeBytes("INVITE\n");
                         Main.stateHandler.invokeSendInvite();
                     } catch (IOException e) {
-
+                        System.out.println("Connection broke");
+                        Main.stateHandler.invokeReceivedBusy();
                     }
                 } catch (SocketTimeoutException e) {
                     System.out.println("Connection timed out");

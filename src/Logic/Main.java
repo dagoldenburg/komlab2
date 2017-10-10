@@ -25,7 +25,7 @@ public class Main {
             System.exit(-1);
         }
         t.start();
-            t = new Thread(new InputHandler());
+        t = new Thread(new InputHandler());
         t.start();
         stateHandler = new StateHandler();
         stateHandler.initStates();

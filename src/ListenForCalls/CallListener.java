@@ -29,7 +29,7 @@ public class CallListener implements Runnable {
                 Thread t = new Thread(new CallerHandlerThread(connectionSocket));
                 t.start();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Cant receive calls anymore, restart process");
             }
         }
     }

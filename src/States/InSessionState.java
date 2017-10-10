@@ -44,7 +44,8 @@ public class InSessionState extends State {
                     StateHandler.setBeingCalled(false);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Connection broke");
+                Main.stateHandler.invokeReceivedInvite();
             }
             System.out.println("donedone");
         };
