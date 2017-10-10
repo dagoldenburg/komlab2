@@ -23,7 +23,7 @@ public class InSessionState extends State {
     @Override
     public State SendBye() {
         try {
-            StateHandler.getToPeer().writeBytes("BYE");
+            StateHandler.getToPeer().writeBytes("BYE\n");
         } catch (IOException e) {
             killThreads();
             return new WaitingState();

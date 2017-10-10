@@ -10,12 +10,14 @@ public class ClosingState extends State  {
     @Override
     public void stateRun() {
         try {
+            System.out.println("horan");
             if (StateHandler.getFromPeer().readLine().contains("OK")) {
                 Main.stateHandler.invokeReceivedOK();
             }
         } catch (IOException e) {
             Main.stateHandler.invokeReceivedOK();
         }
+
     }
 
     @Override

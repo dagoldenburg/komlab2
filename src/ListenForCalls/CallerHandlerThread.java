@@ -24,8 +24,10 @@ public class CallerHandlerThread implements Runnable {
         while(StateHandler.getSocket()!=null) {
             if (StateHandler.isBeingCalled() && StateHandler.isCalling()) {
                 while (true) {
+                    System.out.println("ostronballe");
                     try {
-                        if (StateHandler.getFromPeer().readLine().contains("BYE")) {
+                        String input = StateHandler.getFromPeer().readLine();
+                        if (input.contains("OK") || input.contains("BYE")) {
                             System.out.println("Other end hung up");
                             StateHandler.setBeingCalled(false);
                         }
