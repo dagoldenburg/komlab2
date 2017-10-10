@@ -35,7 +35,9 @@ public class CalledState extends State {
     @Override
     public State SendTRO() {
         try {
-            StateHandler.getToPeer().writeBytes("TRO\n");
+            if(StateHandler.getFromPeer().readLine().contains("INVITE")){
+                StateHandler.getToPeer().writeBytes("TRO\n");
+            }
             if(StateHandler.getFromPeer().readLine().contains("ACK")){
                 return new InSessionState();
             }

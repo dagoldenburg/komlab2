@@ -33,6 +33,7 @@ public class AudioSend extends Audio implements Runnable {
     }
     private void send() throws IOException{
             microphone.read(sendBuffer, 0, sendBuffer.length);
+        System.out.println(StateHandler.getSocket()+"  +  ");
             DatagramPacket packet = new DatagramPacket(sendBuffer,
                     sendBuffer.length,
                     StateHandler.getSocket().getInetAddress(),
