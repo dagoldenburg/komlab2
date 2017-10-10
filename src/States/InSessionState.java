@@ -32,18 +32,15 @@ public class InSessionState extends State {
         return new ClosingState();
     }
 
-    String input = new String();
     @Override
     public void stateRun() {
-        Scanner s = new Scanner(System.in);
         Thread audioSendThread = new Thread(new AudioSend());
         audioSendThread.start();
         Thread audioReceiveThread = new Thread(new AudioReceive());
         audioReceiveThread.start();
         System.out.println("Write x if you want to hang up");
         while(true){
-            input = s.nextLine();
-            if(input.equalsIgnoreCase("x")){
+            if(!StateHandler.isCalling()){
                 Main.stateHandler.invokeSendBye();
             }
             if(!StateHandler.isBeingCalled()){
