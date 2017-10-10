@@ -13,7 +13,6 @@ public class InputHandler implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("taking input");
         Scanner s = new Scanner(System.in);
         while(true) {
             String input = s.nextLine();
@@ -23,9 +22,8 @@ public class InputHandler implements Runnable {
                     StateHandler.setCalling(true);
                 }
             if (input.length() == 1) {
-                System.out.println("1");
                 if (input.equalsIgnoreCase("x") && Main.stateHandler.getCurrentState() instanceof InSessionState) {
-                    StateHandler.setBeingCalled(false);
+                    StateHandler.setCalling(false);
                 }
                 if (input.equalsIgnoreCase("y") && Main.stateHandler.getCurrentState() instanceof CalledState) {
                     CalledState.setYorN('y');

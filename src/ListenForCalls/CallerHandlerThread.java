@@ -17,14 +17,11 @@ public class CallerHandlerThread implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("received call");
         if(Main.stateHandler.getCurrentState() instanceof WaitingState){
-            System.out.println("setup connection");
             Main.stateHandler.makeNewConnection(connection);
             StateHandler.setBeingCalled(true);
         }
         while(StateHandler.getSocket()!=null) {
-            System.out.println("seriöst");
             if (StateHandler.isBeingCalled() && StateHandler.isCalling()) {
                 try {
                     if (StateHandler.getFromPeer().readLine().contains("BYE")) {
