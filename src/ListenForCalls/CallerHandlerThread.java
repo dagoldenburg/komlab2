@@ -18,20 +18,22 @@ public class CallerHandlerThread implements Runnable {
     @Override
     public void run() {
         System.out.println("received call");
-        System.out.println(Main.stateHandler.getCurrentState());
         if(Main.stateHandler.getCurrentState() instanceof WaitingState){
             System.out.println("setup connection");
             Main.stateHandler.makeNewConnection(connection);
             StateHandler.setBeingCalled(true);
         }
-        while(StateHandler.getSocket()!=null){
-            try {
-                if(StateHandler.getFromPeer().readLine().contains("BYE")){
-                    System.out.println("Other end hung up");
-                    StateHandler.setBeingCalled(false);
+        while(StateHandler.getSocket()!=null) {
+            System.out.println("seriöst");
+            if (StateHandler.isBeingCalled() && StateHandler.isCalling()) {
+                try {
+                    if (StateHandler.getFromPeer().readLine().contains("BYE")) {
+                        System.out.println("Other end hung up");
+                        StateHandler.setBeingCalled(false);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
         return;

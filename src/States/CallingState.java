@@ -15,6 +15,7 @@ public class CallingState extends State {
             e.printStackTrace();
         }
         if (input.contains("TRO")) {
+            System.out.println();
             Main.stateHandler.invokeReceivedTRO();
         } else if (input.contains("BUSY")) {
             Main.stateHandler.invokeReceivedBusy();

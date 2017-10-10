@@ -52,7 +52,6 @@ public class WaitingState extends  State {
     }
 
     public State ReceivedInvite(){
-        System.out.println(StateHandler.getSocket().getInetAddress().getHostAddress());
         return new CalledState();
     }
 

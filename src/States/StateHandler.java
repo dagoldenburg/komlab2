@@ -10,7 +10,7 @@ public class StateHandler {
     private State currentState;
     private static Socket socket = null;
     private static DataOutputStream toPeer = null;
-    private static BufferedReader fromPeer = null;
+    public static BufferedReader fromPeer = null;
     private static boolean beingCalled = false;
     private static boolean calling = false;
     public static String ip;
