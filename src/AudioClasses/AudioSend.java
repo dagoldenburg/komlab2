@@ -10,18 +10,21 @@ import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.net.Socket;
 
 public class AudioSend extends Audio implements Runnable {
     TargetDataLine microphone;
     DataLine.Info info;
     byte[] sendBuffer;
+    InetAddress ip;
 //https://stackoverflow.com/questions/2083342/how-to-send-audio-stream-via-udp-in-java
 
     //https://stackoverflow.com/questions/25798200/java-record-mic-to-byte-array-and-play-sound
 
-    public AudioSend(){
+    public AudioSend(Socket socket){
         super();
         try {
+            ip = socket.getInetAddress();
             info  = new DataLine.Info(TargetDataLine.class, format);
             microphone = (TargetDataLine) AudioSystem.getLine(info);
             microphone.open(format);
@@ -33,10 +36,9 @@ public class AudioSend extends Audio implements Runnable {
     }
     private void send() throws IOException{
             microphone.read(sendBuffer, 0, sendBuffer.length);
-        System.out.println(StateHandler.getSocket()+"  +  ");
             DatagramPacket packet = new DatagramPacket(sendBuffer,
                     sendBuffer.length,
-                    StateHandler.getSocket().getInetAddress(),
+                    ip,
                     Ports.UDP_SEND);
             super.udpSocket.send(packet);
     }
@@ -49,6 +51,7 @@ public class AudioSend extends Audio implements Runnable {
         }catch(IOException e){
             return;
         }finally{
+            System.out.println("fin");
             microphone.close();
             try {
                 udpSocket.close();

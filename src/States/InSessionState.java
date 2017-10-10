@@ -5,6 +5,7 @@ import AudioClasses.AudioSend;
 import Logic.Main;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,7 +14,6 @@ public class InSessionState extends State {
 
     Thread audioSendThread = new Thread();
     Thread audioReceiveThread= new Thread();
-
     private void killThreads(){
         audioSendThread.stop();
         audioReceiveThread.stop();
@@ -34,7 +34,7 @@ public class InSessionState extends State {
 
     @Override
     public void stateRun() {
-        Thread audioSendThread = new Thread(new AudioSend());
+        Thread audioSendThread = new Thread(new AudioSend(StateHandler.getSocket()));
         audioSendThread.start();
         Thread audioReceiveThread = new Thread(new AudioReceive());
         audioReceiveThread.start();
