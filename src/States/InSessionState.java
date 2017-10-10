@@ -45,9 +45,8 @@ public class InSessionState extends State {
                 }
             } catch (IOException e) {
                 System.out.println("Connection broke");
-                Main.stateHandler.invokeReceivedInvite();
+                StateHandler.setBeingCalled(false);
             }
-            System.out.println("donedone");
         };
         byeThread = new Thread(byeListener);
         byeThread.start();
@@ -56,7 +55,7 @@ public class InSessionState extends State {
         audioSendThread.start();
         Thread audioReceiveThread = new Thread(new AudioReceive());
         audioReceiveThread.start();
-        System.out.println("Write x if you want to hang up");
+        System.out.println("You are now in a call, Write x if you want to hang up");
         StateHandler.setCalling(true);
         StateHandler.setBeingCalled(true);
         while(true){
@@ -76,7 +75,6 @@ public class InSessionState extends State {
         try {
             StateHandler.getToPeer().writeBytes("OK\n");
         } catch (IOException e) {
-            e.printStackTrace();
         }
         killThreads();
         return new WaitingState();

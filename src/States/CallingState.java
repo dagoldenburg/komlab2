@@ -26,7 +26,6 @@ public class CallingState extends State {
     @Override
     public State ReceivedTRO() {
         try {
-            System.out.println("You are now in a call");
             StateHandler.getToPeer().writeBytes("ACK\n");
             return new InSessionState();
         } catch (IOException e) {

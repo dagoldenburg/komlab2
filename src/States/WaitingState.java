@@ -42,9 +42,7 @@ public class WaitingState extends  State {
                     }
                 } catch (SocketTimeoutException e) {
                     System.out.println("Connection timed out");
-                } catch (StringIndexOutOfBoundsException e) {
-                    System.out.println("string index oobs");
-                } catch (IOException e) {
+                }catch (IOException e) {
                     e.printStackTrace();
                     System.out.println("Unable to find connection to this address");
                 }
