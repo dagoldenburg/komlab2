@@ -8,9 +8,9 @@ import java.net.Socket;
 
 public class StateHandler {
     private State currentState;
-    public static Socket socket = null;
-    public static DataOutputStream toPeer = null;
-    public static BufferedReader fromPeer = null;
+    private static Socket socket = null;
+    private static DataOutputStream toPeer = null;
+    private static BufferedReader fromPeer = null;
     private static boolean beingCalled = false;
     private static boolean calling = false;
     public static String ip = "";
@@ -29,6 +29,30 @@ public class StateHandler {
 
     public synchronized static void setCalling(boolean calling) {
         StateHandler.calling = calling;
+    }
+
+    public synchronized static BufferedReader getFromPeer() {
+        return fromPeer;
+    }
+
+    public synchronized static void setFromPeer(BufferedReader fromPeer) {
+        StateHandler.fromPeer = fromPeer;
+    }
+
+    public synchronized static DataOutputStream getToPeer() {
+        return toPeer;
+    }
+
+    public synchronized static void setToPeer(DataOutputStream toPeer) {
+        StateHandler.toPeer = toPeer;
+    }
+
+    public synchronized static Socket getSocket() {
+        return socket;
+    }
+
+    public synchronized static void setSocket(Socket socket) {
+        StateHandler.socket = socket;
     }
 
     public void makeNewConnection(Socket socket){

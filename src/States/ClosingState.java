@@ -10,7 +10,7 @@ public class ClosingState extends State  {
     @Override
     public void stateRun() {
         try {
-            if (StateHandler.fromPeer.readLine().contains("OK")) {
+            if (StateHandler.getFromPeer().readLine().contains("OK")) {
                 Main.stateHandler.invokeReceivedOK();
             }
         } catch (IOException e) {

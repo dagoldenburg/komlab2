@@ -23,7 +23,7 @@ public class InSessionState extends State {
     @Override
     public State SendBye() {
         try {
-            StateHandler.toPeer.writeBytes("BYE");
+            StateHandler.getToPeer().writeBytes("BYE");
         } catch (IOException e) {
             killThreads();
             return new WaitingState();
@@ -54,7 +54,7 @@ public class InSessionState extends State {
     @Override
     public State ReceivedBye(){
         try {
-            StateHandler.toPeer.writeBytes("OK");
+            StateHandler.getToPeer().writeBytes("OK");
         } catch (IOException e) {
             e.printStackTrace();
         }

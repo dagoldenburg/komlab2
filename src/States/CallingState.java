@@ -10,7 +10,7 @@ public class CallingState extends State {
     public void stateRun() {
         String input = null;
         try {
-            input = StateHandler.fromPeer.readLine();
+            input = StateHandler.getFromPeer().readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -24,8 +24,8 @@ public class CallingState extends State {
     @Override
     public State ReceivedTRO() {
         try {
-            System.out.println("You are now ni a call");
-            StateHandler.toPeer.writeBytes("ACK\n");
+            System.out.println("You are now in a call");
+            StateHandler.getToPeer().writeBytes("ACK\n");
             return new InSessionState();
         } catch (IOException e) {
             e.printStackTrace();

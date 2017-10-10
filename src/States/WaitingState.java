@@ -32,9 +32,9 @@ public class WaitingState extends  State {
                     try {
                         if (Main.getFaultyMode()) {
                             System.out.println("faulty mode");
-                            StateHandler.toPeer.writeBytes("FAULTY\n");
+                            StateHandler.getToPeer().writeBytes("FAULTY\n");
                         } else
-                            StateHandler.toPeer.writeBytes("INVITE\n");
+                            StateHandler.getToPeer().writeBytes("INVITE\n");
                         Main.stateHandler.invokeSendInvite();
                     } catch (IOException e) {
 

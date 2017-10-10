@@ -24,9 +24,9 @@ public class CallerHandlerThread implements Runnable {
             Main.stateHandler.makeNewConnection(connection);
             StateHandler.setBeingCalled(true);
         }
-        while(StateHandler.socket!=null){
+        while(StateHandler.getSocket()!=null){
             try {
-                if(StateHandler.fromPeer.readLine().contains("BYE")){
+                if(StateHandler.getFromPeer().readLine().contains("BYE")){
                     System.out.println("Other end hung up");
                     StateHandler.setBeingCalled(false);
                 }

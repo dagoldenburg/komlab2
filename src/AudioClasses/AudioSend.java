@@ -35,7 +35,7 @@ public class AudioSend extends Audio implements Runnable {
             microphone.read(sendBuffer, 0, sendBuffer.length);
             DatagramPacket packet = new DatagramPacket(sendBuffer,
                     sendBuffer.length,
-                    StateHandler.socket.getInetAddress(),
+                    StateHandler.getSocket().getInetAddress(),
                     Ports.UDP_SEND);
             super.udpSocket.send(packet);
     }
