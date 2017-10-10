@@ -36,30 +36,17 @@ public class InSessionState extends State {
     @Override
     public void stateRun() {
         Scanner s = new Scanner(System.in);
-        TimerTask task = new TimerTask()
-        {
-            public void run()
-            {
-                if( input.equals("") )
-                {
-
-                }
-            }
-        };
-        Timer timer = new Timer();
         Thread audioSendThread = new Thread(new AudioSend());
         audioSendThread.start();
         Thread audioReceiveThread = new Thread(new AudioReceive());
         audioReceiveThread.start();
         System.out.println("Write x if you want to hang up");
         while(true){
-            timer.schedule( task, 1000 );
             input = s.nextLine();
-            timer.cancel();
             if(input.equalsIgnoreCase("x")){
                 Main.stateHandler.invokeSendBye();
             }
-            if(StateHandler.beingCalled==false){
+            if(!StateHandler.isBeingCalled()){
                 Main.stateHandler.invokeReceivedBye();
             }
         }

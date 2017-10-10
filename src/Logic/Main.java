@@ -1,6 +1,7 @@
 package Logic;
 
 import ListenForCalls.CallListener;
+import ListenForCalls.InputHandler;
 import States.StateHandler;
 
 import java.io.IOException;
@@ -23,6 +24,8 @@ public class Main {
             e.printStackTrace();
             System.exit(-1);
         }
+        t.start();
+            t = new Thread(new InputHandler());
         t.start();
         stateHandler = new StateHandler();
         stateHandler.initStates();

@@ -11,7 +11,25 @@ public class StateHandler {
     public static Socket socket = null;
     public static DataOutputStream toPeer = null;
     public static BufferedReader fromPeer = null;
-    public static boolean beingCalled = false;
+    private static boolean beingCalled = false;
+    private static boolean calling = false;
+    public static String ip = "";
+
+    public synchronized static boolean isBeingCalled() {
+        return beingCalled;
+    }
+
+    public synchronized static void setBeingCalled(boolean beingCalled) {
+        StateHandler.beingCalled = beingCalled;
+    }
+
+    public synchronized static boolean isCalling() {
+        return calling;
+    }
+
+    public synchronized static void setCalling(boolean calling) {
+        StateHandler.calling = calling;
+    }
 
     public void makeNewConnection(Socket socket){
         try {

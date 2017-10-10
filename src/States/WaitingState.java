@@ -13,60 +13,40 @@ import java.util.TimerTask;
 
 public class WaitingState extends  State {
 
-
-    Scanner userInput;
-    String input = new String();
-
-
     public void stateRun(){
-        TimerTask task = new TimerTask()
-        {
-            public void run()
-            {
-                if( input.equals("") )
-                {
-
-                }
-            }
-        };
         try {
             Main.stateHandler.removeConnection();
         }catch(NullPointerException e){
 
         }
-        userInput = new Scanner(System.in);
-        String ip;
         System.out.println("Welcome, if you want to call someone write: call <ip>");
         while(true){
-            Timer timer = new Timer();
-            timer.schedule( task, 1000 );
-            input = userInput.nextLine();
-            timer.cancel();
-            if(StateHandler.beingCalled == true){
+            if(StateHandler.isBeingCalled()){
                 Main.stateHandler.invokeReceivedInvite();
             }
-            try {
-                if (input.substring(0, 5).equalsIgnoreCase("call ")) {
-                    ip = input.substring(5);
-                    Main.stateHandler.makeNewConnection(new Socket(InetAddress.getByName(ip), Ports.TCP_SEND));
-                    try{
+            if(StateHandler.isCalling()) {
+                System.out.println("calling 1");
+                try {
+                    Main.stateHandler.makeNewConnection(new Socket(InetAddress.getByName(StateHandler.ip), Ports.TCP_SEND));
+                    System.out.println("calling 2");
+                    try {
                         if (Main.getFaultyMode()) {
                             System.out.println("faulty mode");
                             StateHandler.toPeer.writeBytes("FAULTY\n");
-                        }else
+                        } else
                             StateHandler.toPeer.writeBytes("INVITE\n");
                         Main.stateHandler.invokeSendInvite();
-                    }catch(IOException e){
+                    } catch (IOException e) {
 
                     }
+                } catch (SocketTimeoutException e) {
+                    System.out.println("Connection timed out");
+                } catch (StringIndexOutOfBoundsException e) {
+                    System.out.println("string index oobs");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("Unable to find connection to this address");
                 }
-            } catch(SocketTimeoutException e){
-                System.out.println("Connection timed out");
-            } catch(StringIndexOutOfBoundsException e){
-
-            }catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("Unable to find connection to this address");
             }
         }
     }

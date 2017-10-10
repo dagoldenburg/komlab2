@@ -7,14 +7,26 @@ import java.util.Scanner;
 
 public class CalledState extends State {
 
+    private static char YorN;
+
+    public static synchronized void setYorN(char input){
+        YorN=input;
+    }
+    public static synchronized char getYorN(){
+        return YorN;
+    }
+
+    CalledState(){
+        YorN = 'x';
+    }
+
     @Override
     public void stateRun() {
-        Scanner s = new Scanner(System.in);
+        System.out.println("You are being called, press Y to accept and N to decline");
         while(true){
-            System.out.println("You are being called, press Y to accept and N to decline");
-            if(s.nextLine().equalsIgnoreCase("y")){
+            if(getYorN()=='y'){
                 Main.stateHandler.invokeSendTRO();
-            }else if(s.nextLine().equalsIgnoreCase("n")){
+            }else if(getYorN()=='n'){
                 Main.stateHandler.invokeSendBusy();
             }
         }
@@ -23,12 +35,13 @@ public class CalledState extends State {
     @Override
     public State SendTRO() {
         try {
+            System.out.println("nigg bigga");
             StateHandler.toPeer.writeBytes("TRO\n");
             if(StateHandler.fromPeer.readLine().contains("ACK")){
                 return new InSessionState();
             }
         }catch(IOException e){
-
+            e.printStackTrace();
         }
         return new WaitingState();
     }
