@@ -16,11 +16,12 @@ public class InputHandler implements Runnable {
         Scanner s = new Scanner(System.in);
         while(true) {
             String input = s.nextLine();
-            if (input.length() > 4)
+            if (input.length() > 4) {
                 if (input.substring(0, 5).equalsIgnoreCase("call ") && Main.stateHandler.getCurrentState() instanceof WaitingState) {
                     StateHandler.ip = input.substring(5);
                     StateHandler.setCalling(true);
                 }
+            }
             else if (input.length() == 1) {
                 if (input.equalsIgnoreCase("x") && Main.stateHandler.getCurrentState() instanceof InSessionState) {
                     StateHandler.setCalling(false);
@@ -30,8 +31,8 @@ public class InputHandler implements Runnable {
                 }
                 if (input.equalsIgnoreCase("n") && Main.stateHandler.getCurrentState() instanceof CalledState) {
                     CalledState.setYorN('n');
-                }else System.out.println("Invalid input");
-            }
+                }
+            }else System.out.println("Invalid input");
         }
     }
 }

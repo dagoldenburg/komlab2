@@ -25,30 +25,28 @@ public class InSessionState extends State {
 
     @Override
     public State SendBye() {
+        killThreads();
         try {
             StateHandler.getToPeer().writeBytes("BYE\n");
         } catch (IOException e) {
             killThreads();
             return new WaitingState();
         }
-        killThreads();
         return new ClosingState();
     }
 
     @Override
     public void stateRun() {
         Runnable byeListener = () -> {
-            while (true) {
-                try {
-                    String input = StateHandler.getFromPeer().readLine();
-                    if (input.contains("BYE")) {
-                        System.out.println("Other end hung up");
-                        StateHandler.setBeingCalled(false);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+            try{
+                if (StateHandler.getFromPeer().readLine().contains("BYE")) {
+                    System.out.println("Other end hung up");
+                    StateHandler.setBeingCalled(false);
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            System.out.println("donedone");
         };
         byeThread = new Thread(byeListener);
         byeThread.start();
