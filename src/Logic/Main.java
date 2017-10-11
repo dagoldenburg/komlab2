@@ -15,7 +15,8 @@ public class Main {
     }
 
     public static void main(String[] args){
-        if(args.length>0)
+        Ports.TCP_LISTEN = Integer.parseInt(args[0]);
+        if(args.length>1)
             faultyMode = true;
         Thread t = null;
         try {

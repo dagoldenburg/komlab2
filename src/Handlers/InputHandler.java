@@ -18,7 +18,10 @@ public class InputHandler implements Runnable {
             String input = s.nextLine();
             if (input.length() > 4) {
                 if (input.substring(0, 5).equalsIgnoreCase("call ") && Main.stateHandler.getCurrentState() instanceof WaitingState) {
-                    StateHandler.ip = input.substring(5);
+                    String temp = input.substring(5);
+                    String[] info = temp.split(":");
+                    StateHandler.ip = info[0];
+                    StateHandler.port = Integer.parseInt(info[1]);
                     StateHandler.setCalling(true);
                 }
             }

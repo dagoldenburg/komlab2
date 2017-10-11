@@ -14,6 +14,7 @@ public class StateHandler {
     private static boolean beingCalled = false;
     private static boolean calling = false;
     public static String ip;
+    public static int port;
 
     public synchronized static boolean isBeingCalled() {
         return beingCalled;
