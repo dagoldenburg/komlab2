@@ -35,24 +35,12 @@ public class StateHandler {
         return fromPeer;
     }
 
-    public synchronized static void setFromPeer(BufferedReader fromPeer) {
-        StateHandler.fromPeer = fromPeer;
-    }
-
     public synchronized static DataOutputStream getToPeer() {
         return toPeer;
     }
 
-    public synchronized static void setToPeer(DataOutputStream toPeer) {
-        StateHandler.toPeer = toPeer;
-    }
-
     public synchronized static Socket getSocket() {
         return socket;
-    }
-
-    public synchronized static void setSocket(Socket socket) {
-        StateHandler.socket = socket;
     }
 
     public void makeNewConnection(Socket socket){

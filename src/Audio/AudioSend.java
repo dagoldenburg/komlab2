@@ -12,9 +12,6 @@ import java.net.DatagramPacket;
 public class AudioSend extends Audio implements Runnable {
     TargetDataLine microphone;
     byte[] sendBuffer;
-//https://stackoverflow.com/questions/2083342/how-to-send-audio-stream-via-udp-in-java
-
-    //https://stackoverflow.com/questions/25798200/java-record-mic-to-byte-array-and-play-sound
 
     public AudioSend(){
         super();
