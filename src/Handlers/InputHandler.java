@@ -20,9 +20,13 @@ public class InputHandler implements Runnable {
                 if (input.substring(0, 5).equalsIgnoreCase("call ") && Main.stateHandler.getCurrentState() instanceof WaitingState) {
                     String temp = input.substring(5);
                     String[] info = temp.split(":");
-                    StateHandler.ip = info[0];
-                    StateHandler.port = Integer.parseInt(info[1]);
-                    StateHandler.setCalling(true);
+                    try {
+                        StateHandler.ip = info[0];
+                        StateHandler.port = Integer.parseInt(info[1]);
+                        StateHandler.setCalling(true);
+                    }catch(ArrayIndexOutOfBoundsException e){
+                        System.out.println("Need <ip>:<port>, Example: 0.0.0.0:9999");
+                    }
                 }
             }
             else if (input.length() == 1) {

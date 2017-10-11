@@ -40,12 +40,14 @@ public class WaitingState extends  State {
                     } catch (IOException e) {
                         System.out.println("Connection broke");
                         Main.stateHandler.invokeReceivedBusy();
+                        StateHandler.setCalling(false);
                     }
                 } catch (SocketTimeoutException e) {
                     System.out.println("Connection timed out");
+                    StateHandler.setCalling(false);
                 }catch (IOException e) {
-                    e.printStackTrace();
                     System.out.println("Unable to find connection to this address");
+                    StateHandler.setCalling(false);
                 }
             }
         }

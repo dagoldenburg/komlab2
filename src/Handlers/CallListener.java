@@ -14,8 +14,8 @@ public class CallListener implements Runnable {
         try {
             serverSocket = new ServerSocket(Ports.TCP_LISTEN);
         }catch(BindException e){
-            System.out.println("Incrementing tcp listen port by 1");
-            serverSocket = new ServerSocket(Ports.TCP_LISTEN+1);
+            System.out.println("Listen port is busy, shutting down");
+            System.exit(0);
         }
     }
 
@@ -27,7 +27,8 @@ public class CallListener implements Runnable {
                 Thread t = new Thread(new CallerHandlerThread(connectionSocket));
                 t.start();
             } catch (IOException e) {
-                System.out.println("Cant receive calls anymore, restart process");
+                System.out.println("Cant receive calls anymore, shutting down");
+                System.exit(0);
             }
         }
     }
