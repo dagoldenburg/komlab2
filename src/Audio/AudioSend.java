@@ -1,6 +1,5 @@
-package AudioClasses;
+package Audio;
 
-import ListenForCalls.CallListener;
 import Logic.Main;
 import Logic.Ports;
 import States.InSessionState;
@@ -9,9 +8,6 @@ import States.StateHandler;
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class AudioSend extends Audio implements Runnable {
     TargetDataLine microphone;

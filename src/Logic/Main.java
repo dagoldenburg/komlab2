@@ -1,7 +1,7 @@
 package Logic;
 
-import ListenForCalls.CallListener;
-import ListenForCalls.InputHandler;
+import Handlers.CallListener;
+import Handlers.InputHandler;
 import States.StateHandler;
 
 import java.io.IOException;

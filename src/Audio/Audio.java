@@ -1,10 +1,9 @@
-package AudioClasses;
+package Audio;
 
 import Logic.Ports;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.DataLine;
-import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 

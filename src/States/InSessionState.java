@@ -1,14 +1,10 @@
 package States;
 
-import AudioClasses.AudioReceive;
-import AudioClasses.AudioSend;
+import Audio.AudioReceive;
+import Audio.AudioSend;
 import Logic.Main;
 
 import java.io.IOException;
-import java.net.Socket;
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class InSessionState extends State {
 
