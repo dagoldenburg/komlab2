@@ -33,7 +33,7 @@ public class Main {
         t.start();
         stateHandler = new StateHandler();
         stateHandler.initStates();
-        /*while (true) {
+        while (true) {
             if (Main.stateHandler.getCurrentState() instanceof WaitingState) {
                 Scanner s = new Scanner(System.in);
                 System.out.println("Welcome, write \"call <ip>:<port>\" to call someone");
@@ -46,6 +46,8 @@ public class Main {
                             StateHandler.ip = info[0];
                             StateHandler.port = Integer.parseInt(info[1]);
                             Main.stateHandler.invokeSendInvite();
+                            Main.stateHandler.invokeReceivedTRO();
+                            Main.stateHandler.invokeReceivedACK();
                         } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println("Need <ip>:<port>, Example: 0.0.0.0:9999");
                         }
@@ -56,6 +58,6 @@ public class Main {
                     System.out.println("Got nulled");
                 }
             }
-        }*/
+        }
     }
 }
