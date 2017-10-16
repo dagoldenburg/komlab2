@@ -29,7 +29,6 @@ public class InSessionState extends State {
         return char2;
     }
 
-
     @Override
     public State ReceivedACK() {
         setChar2('i');
@@ -46,7 +45,7 @@ public class InSessionState extends State {
                 } catch (IOException e) {
                     System.out.println("Connection broke");
                 }
-                break;
+                return new ClosingState();
             }
             if(getChar2()=='o'){
                 try {

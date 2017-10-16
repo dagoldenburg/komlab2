@@ -1,5 +1,6 @@
 package States;
 
+import Handlers.ByeListener;
 import Logic.Main;
 
 import java.io.IOException;
@@ -15,6 +16,8 @@ public class CallingState extends State {
             input = StateHandler.getFromPeer().readLine();
             if (input.contains("TRO")) {
                 StateHandler.getToPeer().writeBytes("ACK\n");
+                Thread t = new Thread(new ByeListener());
+                t.start();
                 return new InSessionState();
             }else if(input.contains("BUSY")){
                 return new WaitingState();

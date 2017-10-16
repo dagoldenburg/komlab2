@@ -35,7 +35,7 @@ public class CallerHandlerThread implements Runnable {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Connection broke");
         }
 
     }
