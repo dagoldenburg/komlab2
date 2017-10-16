@@ -10,10 +10,6 @@ import java.util.Scanner;
 public class Main {
     public static StateHandler stateHandler;
     static boolean faultyMode;
-    private static String input;
-    public static void setInput(String newInput){
-        input = newInput;
-    }
 
     public static boolean getFaultyMode(){
         return faultyMode;
@@ -33,5 +29,6 @@ public class Main {
         t.start();
         stateHandler = new StateHandler();
         stateHandler.initStates();
+
     }
 }
