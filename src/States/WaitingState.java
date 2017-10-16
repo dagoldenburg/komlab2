@@ -13,6 +13,9 @@ import java.util.TimerTask;
 
 public class WaitingState extends  State {
 
+
+
+
     public State ReceivedInvite(){
         Main.setInput(null);
         System.out.println("You are being called, press Y to accept and N to decline");
