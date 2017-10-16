@@ -10,6 +10,10 @@ import java.util.Scanner;
 public class Main {
     public static StateHandler stateHandler;
     static boolean faultyMode;
+    private static String input;
+    public static void setInput(String newInput){
+        input = newInput;
+    }
 
     public static boolean getFaultyMode(){
         return faultyMode;
@@ -29,11 +33,11 @@ public class Main {
         t.start();
         stateHandler = new StateHandler();
         stateHandler.initStates();
-        while (true) {
+        /*while (true) {
             if (Main.stateHandler.getCurrentState() instanceof WaitingState) {
                 Scanner s = new Scanner(System.in);
                 System.out.println("Welcome, write \"call <ip>:<port>\" to call someone");
-                String input = s.nextLine();
+                input = s.nextLine();
                 try {
                     if (input.substring(0, 5).equalsIgnoreCase("call ")) {
                         String temp = input.substring(5);
@@ -46,10 +50,12 @@ public class Main {
                             System.out.println("Need <ip>:<port>, Example: 0.0.0.0:9999");
                         }
                     } else System.out.println("Invalid input");
-                }catch(StringIndexOutOfBoundsException){
+                }catch(StringIndexOutOfBoundsException e){
 
+                }catch(NullPointerException e2){
+                    System.out.println("Got nulled");
                 }
             }
-        }
+        }*/
     }
 }

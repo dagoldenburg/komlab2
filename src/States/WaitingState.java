@@ -14,12 +14,14 @@ import java.util.TimerTask;
 public class WaitingState extends  State {
 
     public State ReceivedInvite(){
+        Main.setInput(null);
         System.out.println("You are being called, press Y to accept and N to decline");
         Scanner s = new Scanner(System.in);
-        String input = s.nextLine();
         try {
             while(true){
                 //TODO: timeout
+                String input = s.nextLine();
+                System.out.println(input);
                 if(input.equalsIgnoreCase("y")){
                     StateHandler.getToPeer().writeBytes("TRO\n");
                     return new CalledState();
@@ -36,7 +38,7 @@ public class WaitingState extends  State {
 
     @Override
     public State SendInvite(){
-                Main.stateHandler.removeConnection();
+        Main.stateHandler.removeConnection();
         try {
             Ports.TCP_SEND = StateHandler.port;
             Main.stateHandler.makeNewConnection(new Socket(InetAddress.getByName(StateHandler.ip), Ports.TCP_SEND));
