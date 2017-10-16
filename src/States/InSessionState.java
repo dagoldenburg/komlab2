@@ -37,8 +37,7 @@ public class InSessionState extends State {
         Thread audioReceiveThread = new Thread(new AudioReceive());
         audioReceiveThread.start();
         System.out.println("You are now in a call, Write x if you want to hang up");
-        System.out.println(Main.stateHandler.getCurrentState());
-        while(Main.stateHandler.getCurrentState() instanceof InSessionState){
+        while(true){
             if(getChar2()=='x'){
                 try {
                     StateHandler.getToPeer().writeBytes("BYE\n");
@@ -57,8 +56,6 @@ public class InSessionState extends State {
                 return new WaitingState();
             }
         }
-
-        return new ClosingState();
     }
 
 }
