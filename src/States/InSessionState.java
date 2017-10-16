@@ -42,6 +42,11 @@ public class InSessionState extends State {
             Scanner s = new Scanner(System.in);
             String input = s.nextLine();
             if(input.equals("x")){
+                try {
+                    StateHandler.getToPeer().writeBytes("BYE\n");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
         }
