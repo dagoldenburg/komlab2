@@ -20,11 +20,12 @@ public class WaitingState extends  State {
         try {
             while(true){
                 //TODO: timeout
-                if(input.equals("y")){
+                if(input.equalsIgnoreCase("y")){
                     StateHandler.getToPeer().writeBytes("TRO\n");
                     return new CalledState();
-                }else if(input.equals("n")){
+                }else if(input.equalsIgnoreCase("n")){
                     StateHandler.getToPeer().writeBytes("BUSY\n");
+                    return new WaitingState();
                 }
             }
         } catch (IOException e) {
