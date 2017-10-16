@@ -9,9 +9,9 @@ public class ClosingState extends State  {
     @Override
     public State ReceivedBye() {
         try {
-            StateHandler.getToPeer().writeBytes("OK\n");
+            if(StateHandler.getFromPeer().readLine().contains("OK"));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Connection broke");
         }
         return new WaitingState();
     }

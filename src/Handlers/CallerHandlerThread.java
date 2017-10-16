@@ -1,6 +1,7 @@
 package Handlers;
 
 import Logic.Main;
+import States.InSessionState;
 import States.StateHandler;
 import States.WaitingState;
 
@@ -29,7 +30,8 @@ public class CallerHandlerThread implements Runnable {
                     Main.stateHandler.invokeSendACK();
                     Main.stateHandler.invokeReceivedACK();
                 } else if (input.contains("BYE")) {
-                    Main.stateHandler.invokeReceivedBye();
+                    InSessionState.setChar2('o');
+                    //Main.stateHandler.invokeReceivedBye();
                 }
             }
         } catch (IOException e) {

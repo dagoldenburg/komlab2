@@ -8,70 +8,35 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class WaitingState extends  State {
-    Thread t = new Thread();
-    public WaitingState(){
-        t = new Thread(new Input());
-        t.start();
+
+    static char char1 = 'i';
+
+    public static synchronized void setChar1(char newChar){
+        char1 = newChar;
     }
 
-    private class Input implements Runnable{
-
-        @Override
-        public void run() {
-            String input;
-            while (true) {
-                if (Main.stateHandler.getCurrentState() instanceof WaitingState) {
-                    Scanner s = new Scanner(System.in);
-                    System.out.println("Welcome, write \"call <ip>:<port>\" to call someone");
-                    input = s.nextLine();
-                    try {
-                        if (input.substring(0, 5).equalsIgnoreCase("call ")) {
-                            String temp = input.substring(5);
-                            String[] info = temp.split(":");
-                            try {
-                                StateHandler.ip = info[0];
-                                StateHandler.port = Integer.parseInt(info[1]);
-                                Main.stateHandler.invokeSendInvite();
-                                Main.stateHandler.invokeReceivedTRO();
-                                Main.stateHandler.invokeReceivedACK();
-                            } catch (ArrayIndexOutOfBoundsException e) {
-                                System.out.println("Need <ip>:<port>, Example: 0.0.0.0:9999");
-                            }
-                        } else System.out.println("Invalid input");
-                    }catch(StringIndexOutOfBoundsException e){
-
-                    }catch(NullPointerException e2){
-                        System.out.println("Got nulled");
-                    }
-                }
-            }
-        }
+    public static synchronized char getChar1(){
+        return char1;
     }
 
 
     public State ReceivedInvite(){
-        t.interrupt();
+        setChar1('i');
         System.out.println("You are being called, press Y to accept and N to decline");
-        Scanner s = new Scanner(System.in);
         try {
             while(true){
-                //TODO: timeout
-                String input = s.nextLine();
-                System.out.println(input);
-                if(input.equalsIgnoreCase("y")){
+                if(getChar1()=='y'){
                     StateHandler.getToPeer().writeBytes("TRO\n");
                     return new CalledState();
-                }else if(input.equalsIgnoreCase("n")){
+                }else if(getChar1()=='n'){
                     StateHandler.getToPeer().writeBytes("BUSY\n");
                     return new WaitingState();
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Connection broke");
         }
         return new WaitingState();
     }
