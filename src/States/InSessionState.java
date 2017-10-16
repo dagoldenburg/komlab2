@@ -40,6 +40,7 @@ public class InSessionState extends State {
         while(true){
             if(getChar2()=='x'){
                 try {
+                    System.out.println("sending bye");
                     StateHandler.getToPeer().writeBytes("BYE\n");
                 } catch (IOException e) {
                     System.out.println("Connection broke");
@@ -48,6 +49,7 @@ public class InSessionState extends State {
             }
             if(getChar2()=='o'){
                 try {
+                    System.out.println("got bye sending ok");
                     StateHandler.getToPeer().writeBytes("OK\n");
                 } catch (IOException e) {
                     System.out.println("Connection broke;");
