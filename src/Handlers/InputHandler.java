@@ -23,23 +23,12 @@ public class InputHandler implements Runnable {
                     try {
                         StateHandler.ip = info[0];
                         StateHandler.port = Integer.parseInt(info[1]);
-                        StateHandler.setCalling(true);
+                        Main.stateHandler.invokeSendInvite();
                     }catch(ArrayIndexOutOfBoundsException e){
                         System.out.println("Need <ip>:<port>, Example: 0.0.0.0:9999");
                     }
-                }
+                }else System.out.println("Invalid input");
             }
-            else if (input.length() == 1) {
-                if (input.equalsIgnoreCase("x") && Main.stateHandler.getCurrentState() instanceof InSessionState) {
-                    StateHandler.setCalling(false);
-                }
-                if (input.equalsIgnoreCase("y") && Main.stateHandler.getCurrentState() instanceof CalledState) {
-                    CalledState.setYorN('y');
-                }
-                if (input.equalsIgnoreCase("n") && Main.stateHandler.getCurrentState() instanceof CalledState) {
-                    CalledState.setYorN('n');
-                }
-            }else System.out.println("Invalid input");
         }
     }
 }

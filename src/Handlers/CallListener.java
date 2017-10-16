@@ -1,7 +1,10 @@
 package Handlers;
 
+import Logic.Main;
 import Logic.Ports;
+import States.InSessionState;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -24,6 +27,16 @@ public class CallListener implements Runnable {
         while(true){
             try {
                 Socket connectionSocket = serverSocket.accept();
+
+                // if busy() ... slipper starta en tråd
+                if(Main.stateHandler.getCurrentState() instanceof InSessionState){
+                    try {
+                        DataOutputStream toPeer = new DataOutputStream(connectionSocket.getOutputStream());
+                        toPeer.writeBytes("BUSY\n");
+                    } catch (IOException e) {
+                    }
+                }
+
                 Thread t = new Thread(new CallerHandlerThread(connectionSocket));
                 t.start();
             } catch (IOException e) {

@@ -11,26 +11,8 @@ public class StateHandler {
     private static Socket socket = null;
     private static DataOutputStream toPeer = null;
     public static BufferedReader fromPeer = null;
-    private static boolean beingCalled = false;
-    private static boolean calling = false;
     public static String ip;
     public static int port;
-
-    public synchronized static boolean isBeingCalled() {
-        return beingCalled;
-    }
-
-    public synchronized static void setBeingCalled(boolean beingCalled) {
-        StateHandler.beingCalled = beingCalled;
-    }
-
-    public synchronized static boolean isCalling() {
-        return calling;
-    }
-
-    public synchronized static void setCalling(boolean calling) {
-        StateHandler.calling = calling;
-    }
 
     public synchronized static BufferedReader getFromPeer() {
         return fromPeer;
@@ -67,16 +49,15 @@ public class StateHandler {
 
     public void initStates(){
         currentState = new WaitingState();
-        currentState.stateRun();
     }
 
-    public void invokeReceivedInvite(){currentState = currentState.ReceivedInvite();currentState.stateRun();}
-    public void invokeSendInvite(){currentState = currentState.SendInvite();currentState.stateRun();}
-    public void invokeSendTRO(){currentState = currentState.SendTRO();currentState.stateRun();}
-    public void invokeSendBusy(){currentState = currentState.SendBusy();currentState.stateRun();}
-    public void invokeSendBye(){currentState = currentState.SendBye();currentState.stateRun();}
-    public void invokeReceivedTRO(){currentState = currentState.ReceivedTRO();currentState.stateRun();}
-    public void invokeReceivedOK(){currentState = currentState.ReceivedOK();currentState.stateRun();}
-    public void invokeReceivedBye(){currentState = currentState.ReceivedBye();currentState.stateRun();}
-    public void invokeReceivedBusy(){currentState = currentState.ReceivedBusy();currentState.stateRun();}
+    public void invokeReceivedInvite(){currentState = currentState.ReceivedInvite();}
+    public void invokeSendInvite(){currentState = currentState.SendInvite();}
+    public void invokeSendTRO(){currentState = currentState.SendTRO();}
+    public void invokeSendACK(){currentState = currentState.SendACK();}
+    public void invokeSendBye(){currentState = currentState.SendBye();}
+    public void invokeReceivedTRO(){currentState = currentState.ReceivedTRO();}
+    public void invokeReceivedOK(){currentState = currentState.ReceivedOK();}
+    public void invokeReceivedBye(){currentState = currentState.ReceivedBye();}
+    public void invokeReceivedBusy(){currentState = currentState.ReceivedBusy();}
 }

@@ -7,37 +7,22 @@ import java.net.SocketException;
 
 public class CallingState extends State {
 
+
     @Override
-    public void stateRun() {
+    public State ReceivedTRO() {
         String input = null;
         try {
             input = StateHandler.getFromPeer().readLine();
             if (input.contains("TRO")) {
-                Main.stateHandler.invokeReceivedTRO();
-            } else if (input.contains("BUSY")) {
-                Main.stateHandler.invokeReceivedBusy();
+                StateHandler.getToPeer().writeBytes("ACK\n");
+                return new InSessionState();
+            }else if(input.contains("BUSY")){
+                return new WaitingState();
             }
         } catch (IOException e) {
             System.out.println("Connection broke");
-            Main.stateHandler.invokeSendTRO();
         }
-    }
-
-    @Override
-    public State ReceivedTRO() {
-        try {
-            StateHandler.getToPeer().writeBytes("ACK\n");
-            return new InSessionState();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new WaitingState();
-        }
-
-    }
-
-    @Override
-    public State ReceivedBusy(){
-        System.out.println("User is busy");
         return new WaitingState();
     }
+
 }

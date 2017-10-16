@@ -6,23 +6,13 @@ import java.io.IOException;
 
 public class ClosingState extends State  {
 
-
     @Override
-    public void stateRun() {
+    public State ReceivedBye() {
         try {
-            if (StateHandler.getFromPeer().readLine().contains("OK")) {
-                Main.stateHandler.invokeReceivedOK();
-            }
+            StateHandler.getToPeer().writeBytes("OK\n");
         } catch (IOException e) {
-            System.out.println("Connection broke");
-            Main.stateHandler.invokeReceivedOK();
+            e.printStackTrace();
         }
-
-    }
-
-    @Override
-    public State ReceivedOK() {
         return new WaitingState();
     }
-
 }

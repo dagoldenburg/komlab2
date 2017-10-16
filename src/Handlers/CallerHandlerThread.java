@@ -18,16 +18,21 @@ public class CallerHandlerThread implements Runnable {
 
     @Override
     public void run() {
-        if(Main.stateHandler.getCurrentState() instanceof WaitingState){
             Main.stateHandler.makeNewConnection(connection);
-            StateHandler.setBeingCalled(true);
-        }else{
-            try {
-                DataOutputStream toPeer = new DataOutputStream(connection.getOutputStream());
-                toPeer.writeBytes("BUSY\n");
-            } catch (IOException e) {
+
+        try {
+            String input = StateHandler.getFromPeer().readLine();
+            if(input.contains("INVITE")){
+                Main.stateHandler.invokeReceivedInvite();
+            }else if(input.contains("ACK")){
+                Main.stateHandler.invokeSendACK();
+            }else if(input.contains("BYE")){
+                Main.stateHandler.invokeReceivedBye();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         return;
     }
 }

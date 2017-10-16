@@ -5,6 +5,7 @@ import Audio.AudioSend;
 import Logic.Main;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class InSessionState extends State {
 
@@ -30,38 +31,21 @@ public class InSessionState extends State {
         }
         return new ClosingState();
     }
-
     @Override
-    public void stateRun() {
-        Runnable byeListener = () -> {
-            try{
-                if (StateHandler.getFromPeer().readLine().contains("BYE")) {
-                    System.out.println("Other end hung up");
-                    StateHandler.setBeingCalled(false);
-                }
-            } catch (IOException e) {
-                System.out.println("Connection broke");
-                StateHandler.setBeingCalled(false);
-            }
-        };
-        byeThread = new Thread(byeListener);
-        byeThread.start();
-
+    public State ReceivedACK() {
         Thread audioSendThread = new Thread(new AudioSend());
         audioSendThread.start();
         Thread audioReceiveThread = new Thread(new AudioReceive());
         audioReceiveThread.start();
         System.out.println("You are now in a call, Write x if you want to hang up");
-        StateHandler.setCalling(true);
-        StateHandler.setBeingCalled(true);
-        while(true){
-            if(!StateHandler.isCalling()){
-                Main.stateHandler.invokeSendBye();
-            }
-            if(!StateHandler.isBeingCalled()){
-                Main.stateHandler.invokeReceivedBye();
+        while(Main.stateHandler.getCurrentState() instanceof InSessionState){
+            Scanner s = new Scanner(System.in);
+            String input = s.nextLine();
+            if(input.equals("x")){
+                break;
             }
         }
+        return new ClosingState();
     }
 
 

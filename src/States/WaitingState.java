@@ -13,53 +13,48 @@ import java.util.TimerTask;
 
 public class WaitingState extends  State {
 
-    public void stateRun(){
+    public State ReceivedInvite(){
+        System.out.println("You are being called, press Y to accept and N to decline");
+        Scanner s = new Scanner(System.in);
+        String input = s.nextLine();
         try {
-            Main.stateHandler.removeConnection();
-        }catch(NullPointerException e){
-
-        }
-        StateHandler.setBeingCalled(false);
-        StateHandler.setCalling(false);
-        System.out.println("Welcome, if you want to call someone write: call <ip>:<port>");
-        while(true){
-            if(StateHandler.isBeingCalled()){
-                Main.stateHandler.invokeReceivedInvite();
-            }
-            if(StateHandler.isCalling()) {
-                try {
-                    Ports.TCP_SEND = StateHandler.port;
-                    Main.stateHandler.makeNewConnection(new Socket(InetAddress.getByName(StateHandler.ip), Ports.TCP_SEND));
-                    try {
-                        if (Main.getFaultyMode()) {
-                            System.out.println("faulty mode");
-                            StateHandler.getToPeer().writeBytes("FAULTY\n");
-                        } else
-                            StateHandler.getToPeer().writeBytes("INVITE\n");
-                        Main.stateHandler.invokeSendInvite();
-                    } catch (IOException e) {
-                        System.out.println("Connection broke");
-                        Main.stateHandler.invokeReceivedBusy();
-                        StateHandler.setCalling(false);
-                    }
-                } catch (SocketTimeoutException e) {
-                    System.out.println("Connection timed out");
-                    StateHandler.setCalling(false);
-                }catch (IOException e) {
-                    System.out.println("Unable to find connection to this address");
-                    StateHandler.setCalling(false);
+            while(true){
+                //TODO: timeout
+                if(input.equals("y")){
+                    StateHandler.getToPeer().writeBytes("TRO\n");
+                    return new CalledState();
+                }else if(input.equals("n")){
+                    StateHandler.getToPeer().writeBytes("BUSY\n");
                 }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-
-    public State ReceivedInvite(){
-        return new CalledState();
+        return new WaitingState();
     }
 
     @Override
     public State SendInvite(){
-        return new CallingState();
+                Main.stateHandler.removeConnection();
+        try {
+            Ports.TCP_SEND = StateHandler.port;
+            Main.stateHandler.makeNewConnection(new Socket(InetAddress.getByName(StateHandler.ip), Ports.TCP_SEND));
+            try {
+                if (Main.getFaultyMode()) {
+                    System.out.println("faulty mode");
+                    StateHandler.getToPeer().writeBytes("FAULTY\n");
+                } else {
+                    StateHandler.getToPeer().writeBytes("INVITE\n");
+                }
+                return new CallingState();
+            } catch (IOException e) {
+                System.out.println("Connection broke");
+            }
+        } catch (SocketTimeoutException e) {
+            System.out.println("Connection timed out");
+        }catch (IOException e) {
+            System.out.println("Unable to find connection to this address");
+        }
+        return new WaitingState();
     }
-
 }

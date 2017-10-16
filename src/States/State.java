@@ -2,8 +2,6 @@ package States;
 
 public abstract class State {
 
-    public abstract void stateRun();
-
     public State ReceivedInvite(){return new WaitingState();}
     public State SendInvite(){return new WaitingState();}
     public State ReceivedACK(){return  new WaitingState();}
