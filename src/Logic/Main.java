@@ -33,10 +33,17 @@ public class Main {
         String input;
         Scanner s = new Scanner(System.in);
         while (true) {
-                if(Main.stateHandler.getCurrentState() instanceof WaitingState) {
-                    System.out.println("Welcome, write \"call <ip>:<port>\" to call someone");
                     input = s.nextLine();
                 try{
+                    if(input.equalsIgnoreCase("y")) {
+                        WaitingState.setChar1('y');
+                    }
+                    if(input.equalsIgnoreCase("n")){
+                        WaitingState.setChar1('n');
+                    }
+                    if (input.equalsIgnoreCase("x")) {
+                        Main.stateHandler.invokeSendBye();
+                    }
                     if (input.substring(0, 5).equalsIgnoreCase("call ")) {
                         String temp = input.substring(5);
                         String[] info = temp.split(":");
@@ -50,18 +57,6 @@ public class Main {
                         }
                     }
                 }catch(StringIndexOutOfBoundsException e){
-                }
-                if(input.equalsIgnoreCase("y")) {
-                    WaitingState.setChar1('y');
-                }
-                if(input.equalsIgnoreCase("n")){
-                    WaitingState.setChar1('n');
-                }
-                } else if(Main.stateHandler.getCurrentState() instanceof InSessionState) {
-                    input = s.nextLine();
-                    if (input.equalsIgnoreCase("x")) {
-                        Main.stateHandler.invokeSendBye();
-                    }
                 }
             }
         }

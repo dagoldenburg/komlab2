@@ -36,8 +36,7 @@ public class AudioSend extends Audio implements Runnable {
     @Override
     public void run() {
         try {
-            while (Main.stateHandler.getCurrentState() instanceof InSessionState) {
-                System.out.println("xxx");
+            while (true) {
                 send();
             }
         }catch(IOException e){

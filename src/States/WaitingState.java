@@ -22,6 +22,10 @@ public class WaitingState extends  State {
     }
 
 
+    public WaitingState(){
+        System.out.println("Welcome, write \"call <ip>:<port>\" to call someone");
+    }
+
     public State ReceivedInvite(){
         setChar1('i');
         System.out.println("You are being called, press Y to accept and N to decline");
