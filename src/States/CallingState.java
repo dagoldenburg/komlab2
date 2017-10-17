@@ -23,6 +23,7 @@ public class CallingState extends State {
                 return new InSessionState();
             }else if(input.contains("BUSY")){
                 StateHandler.getSocket().setSoTimeout(0);
+                System.out.println("User is busy");
                 return new WaitingState();
             }
         }catch(SocketTimeoutException e){
