@@ -38,9 +38,13 @@ public class StateHandler {
     }
 
     public void removeConnection(){
-        socket=null;
-        toPeer=null;
-        fromPeer=null;
+        try {
+            socket.close();
+            toPeer.close();
+            fromPeer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public State getCurrentState(){
