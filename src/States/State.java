@@ -14,6 +14,7 @@ public abstract class State {
     public State SendOK(){return new WaitingState();}
     public State ReceivedBye(){return new WaitingState();}
     public State SendBye(){return new WaitingState();}
+    public State ResetState(){return new WaitingState();}
 
 
 }

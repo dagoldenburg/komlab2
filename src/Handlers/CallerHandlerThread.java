@@ -40,6 +40,8 @@ public class CallerHandlerThread implements Runnable {
 
         }
         catch (IOException e) {
+            System.out.println("Connection broke");
+            Main.stateHandler.invokeResetState();
         }
 
     }

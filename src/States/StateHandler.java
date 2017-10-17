@@ -67,5 +67,6 @@ public class StateHandler {
     public void invokeReceivedOK(){currentState = currentState.ReceivedOK();}
     public void invokeReceivedBye(){currentState = currentState.ReceivedBye();}
     public void invokeReceivedBusy(){currentState = currentState.ReceivedBusy();}
+    public void invokeResetState(){currentState = currentState.ResetState();}
     public void invokeReceivedACK(){currentState = currentState.ReceivedACK();}
 }
