@@ -52,7 +52,7 @@ public class Main {
                             StateHandler.port = Integer.parseInt(info[1]);
                             Main.stateHandler.invokeSendInvite();
                             Main.stateHandler.invokeReceivedTRO();
-                        } catch (ArrayIndexOutOfBoundsException e) {
+                        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
                             System.out.println("Need <ip>:<port>, Example: 0.0.0.0:9999");
                         }
                     }

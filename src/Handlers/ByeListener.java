@@ -10,8 +10,11 @@ public class ByeListener implements Runnable {
     @Override
     public void run() {
         try {
-            if(StateHandler.fromPeer.readLine().contains("BYE")){
+            String input = StateHandler.fromPeer.readLine();
+            if(input.contains("BYE")){
                 Main.stateHandler.invokeReceivedBye();
+            }else if(input.contains("OK")){
+                Main.stateHandler.invokeReceivedOK();
             }
         } catch (IOException e) {
             System.out.println("Connection broke");

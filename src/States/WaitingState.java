@@ -31,7 +31,13 @@ public class WaitingState extends  State {
         setChar1('i');
         System.out.println("You are being called, press Y to accept and N to decline");
         try {
+            long startTime = System.currentTimeMillis();
             while(true){
+                long currentTime = System.currentTimeMillis();
+                if((currentTime-startTime)>10000) {
+                    System.out.println("Timed out");
+                    return new WaitingState();
+                }
                 if(getChar1()=='y'){
                     StateHandler.getToPeer().writeBytes("TRO\n");
                     return new CalledState();
@@ -45,12 +51,6 @@ public class WaitingState extends  State {
         }
         return new WaitingState();
     }
-
-
-    public State ReceivedBye(){
-        return new WaitingState();
-    }
-
 
     @Override
     public State SendInvite(){

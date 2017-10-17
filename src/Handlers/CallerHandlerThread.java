@@ -26,6 +26,7 @@ public class CallerHandlerThread implements Runnable {
                 String input = StateHandler.getFromPeer().readLine();
                 System.out.println(input);
                 if (input.contains("INVITE")) {
+                    StateHandler.getSocket().setSoTimeout(10000);
                     Main.stateHandler.invokeReceivedInvite();
                 } else if (input.contains("ACK")) {
                     Main.stateHandler.invokeReceivedACK();
