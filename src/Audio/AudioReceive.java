@@ -1,7 +1,9 @@
 package Audio;
 
 import Logic.Main;
+import States.ClosingState;
 import States.InSessionState;
+import States.WaitingState;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -37,7 +39,7 @@ public class AudioReceive extends Audio implements Runnable{
     @Override
     public void run() {
         try {
-            while (true) {
+            while (!(Thread.currentThread().isInterrupted())) {
                 send();
             }
         }catch(IOException e){

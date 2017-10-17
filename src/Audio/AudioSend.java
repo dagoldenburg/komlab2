@@ -2,8 +2,10 @@ package Audio;
 
 import Logic.Main;
 import Logic.Ports;
+import States.ClosingState;
 import States.InSessionState;
 import States.StateHandler;
+import States.WaitingState;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -33,10 +35,11 @@ public class AudioSend extends Audio implements Runnable {
                     Ports.UDP_SEND);
             super.udpSocket.send(packet);
     }
+
     @Override
     public void run() {
         try {
-            while (true) {
+            while (!(Thread.currentThread().isInterrupted())) {
                 send();
             }
         }catch(IOException e){

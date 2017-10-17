@@ -9,20 +9,20 @@ import java.util.Scanner;
 
 public class InSessionState extends State {
 
-    private static Thread audioSendThread = new Thread();
-    private static Thread audioReceiveThread= new Thread();
+    private Thread audioSendThread = new Thread();
+    private Thread audioReceiveThread= new Thread();
 
-    public static void startAudioThreads(){
+    private void killThreads(){
+        audioSendThread.interrupt();
+        audioReceiveThread.interrupt();
+    }
+
+    public InSessionState(){
         Thread audioSendThread = new Thread(new AudioSend());
         audioSendThread.start();
         Thread audioReceiveThread = new Thread(new AudioReceive());
         audioReceiveThread.start();
         System.out.println("You are now in a call, Write x if you want to hang up");
-    }
-
-    private void killThreads(){
-        audioSendThread.stop();
-        audioReceiveThread.stop();
     }
 
     @Override

@@ -12,6 +12,8 @@ public class Audio {
     AudioFormat format;
     DataLine.Info info;
 
+
+
     public Audio(){
         format = new AudioFormat(8000.0f, 16, 1, true, true);
         try {

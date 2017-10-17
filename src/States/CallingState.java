@@ -18,7 +18,6 @@ public class CallingState extends State {
                 StateHandler.getToPeer().writeBytes("ACK\n");
                 Thread t = new Thread(new ByeListener());
                 t.start();
-                InSessionState.startAudioThreads();
                 return new InSessionState();
             }else if(input.contains("BUSY")){
                 return new WaitingState();
