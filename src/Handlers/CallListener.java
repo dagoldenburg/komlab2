@@ -28,17 +28,16 @@ public class CallListener implements Runnable {
             try {
                 Socket connectionSocket = serverSocket.accept();
 
-                // if busy() ... slipper starta en tråd
                 if(Main.stateHandler.getCurrentState() instanceof InSessionState){
                     try {
                         DataOutputStream toPeer = new DataOutputStream(connectionSocket.getOutputStream());
                         toPeer.writeBytes("BUSY\n");
                     } catch (IOException e) {
                     }
+                }else {
+                    Thread t = new Thread(new CallerHandlerThread(connectionSocket));
+                    t.start();
                 }
-
-                Thread t = new Thread(new CallerHandlerThread(connectionSocket));
-                t.start();
             } catch (IOException e) {
                 System.out.println("Cant receive calls anymore, shutting down");
                 System.exit(0);

@@ -1,7 +1,6 @@
 package Handlers;
 
 import Logic.Main;
-import States.InSessionState;
 import States.StateHandler;
 
 import java.io.IOException;
@@ -18,6 +17,7 @@ public class ByeListener implements Runnable {
             }
         } catch (IOException e) {
             System.out.println("Connection broke");
+            Main.stateHandler.invokeResetState();
         }
     }
 }
