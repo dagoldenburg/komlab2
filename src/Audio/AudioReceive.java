@@ -38,6 +38,7 @@ public class AudioReceive extends Audio implements Runnable{
     public void run() {
         try {
             while (Main.stateHandler.getCurrentState() instanceof InSessionState) {
+                System.out.println("asdas");
                 send();
             }
         }catch(IOException e){
