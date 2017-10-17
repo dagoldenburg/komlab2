@@ -31,12 +31,15 @@ public class WaitingState extends  State {
         setChar1('i');
         System.out.println("You are being called, press Y to accept and N to decline");
         try {
+            StateHandler.getSocket().setSoTimeout(10000);
             while(true){
                 if(getChar1()=='y'){
                     StateHandler.getToPeer().writeBytes("TRO\n");
+                    StateHandler.getSocket().setSoTimeout(0);
                     return new CalledState();
                 }else if(getChar1()=='n'){
                     StateHandler.getToPeer().writeBytes("BUSY\n");
+                    StateHandler.getSocket().setSoTimeout(0);
                     return new WaitingState();
                 }
             }
@@ -51,6 +54,7 @@ public class WaitingState extends  State {
         try {
             Ports.TCP_SEND = StateHandler.port;
             Main.stateHandler.makeNewConnection(new Socket(InetAddress.getByName(StateHandler.ip), Ports.TCP_SEND));
+            StateHandler.getSocket().setSoTimeout(10000);
             try {
                 if (Main.getFaultyMode()) {
                     System.out.println("faulty mode");
@@ -58,6 +62,7 @@ public class WaitingState extends  State {
                 } else {
                     StateHandler.getToPeer().writeBytes("INVITE\n");
                 }
+                StateHandler.getSocket().setSoTimeout(0);
                 return new CallingState();
             } catch (IOException e) {
                 System.out.println("Connection broke");

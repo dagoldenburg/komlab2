@@ -37,13 +37,16 @@ public class StateHandler {
         }
     }
 
-    public void removeConnection(){
+    public void removeConnection() {
         try {
             socket.close();
             toPeer.close();
             fromPeer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (NullPointerException e){
+
+        }
+        catch (IOException e) {
+            System.out.println("Connection broke");
         }
     }
 
