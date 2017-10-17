@@ -13,8 +13,8 @@ public class InSessionState extends State {
     private Thread audioReceiveThread= new Thread();
 
     private void killThreads(){
-        audioSendThread.interrupt();
-        audioReceiveThread.interrupt();
+        audioSendThread.stop();
+        audioReceiveThread.stop();
     }
 
     public InSessionState(){
@@ -28,7 +28,6 @@ public class InSessionState extends State {
     @Override
     public State ReceivedBye() {
         try {
-            System.out.println("got bye sending ok");
             StateHandler.getToPeer().writeBytes("OK\n");
         } catch (IOException e) {
             System.out.println("Connection broke;");
@@ -40,7 +39,6 @@ public class InSessionState extends State {
     @Override
     public State SendBye() {
         try {
-            System.out.println("sending bye");
             StateHandler.getToPeer().writeBytes("BYE\n");
         } catch (IOException e) {
             System.out.println("Connection broke");

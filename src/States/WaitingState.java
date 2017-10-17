@@ -23,6 +23,7 @@ public class WaitingState extends  State {
 
 
     public WaitingState(){
+        Main.stateHandler.removeConnection();
         System.out.println("Welcome, write \"call <ip>:<port>\" to call someone");
     }
 
@@ -47,7 +48,6 @@ public class WaitingState extends  State {
 
     @Override
     public State SendInvite(){
-        Main.stateHandler.removeConnection();
         try {
             Ports.TCP_SEND = StateHandler.port;
             Main.stateHandler.makeNewConnection(new Socket(InetAddress.getByName(StateHandler.ip), Ports.TCP_SEND));

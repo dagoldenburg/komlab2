@@ -39,8 +39,11 @@ public class AudioSend extends Audio implements Runnable {
     @Override
     public void run() {
         try {
-            while (!(Thread.currentThread().isInterrupted())) {
+            while(true){
                 send();
+                if(Main.stateHandler.getCurrentState() instanceof ClosingState || Main.stateHandler.getCurrentState() instanceof WaitingState){
+                    break;
+                }
             }
         }catch(IOException e){
             return;
