@@ -11,6 +11,7 @@ public class CalledState extends State {
 
     @Override
     public State ReceivedACK(){
+        InSessionState.startAudioThreads();
         return new InSessionState();
     }
 
