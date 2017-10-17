@@ -53,7 +53,8 @@ public class Main {
                 }
                 if(input.equalsIgnoreCase("y")) {
                     WaitingState.setChar1('y');
-                }if(input.equalsIgnoreCase("n")){
+                }
+                if(input.equalsIgnoreCase("n")){
                     WaitingState.setChar1('n');
                 }
                 } else if(Main.stateHandler.getCurrentState() instanceof InSessionState) {

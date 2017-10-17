@@ -11,10 +11,10 @@ public class ByeListener implements Runnable {
     public void run() {
         try {
             if(StateHandler.fromPeer.readLine().contains("BYE")){
-                InSessionState.setChar2('o');
-                System.out.println("got bye and setting to o");
+                Main.stateHandler.invokeReceivedBye();
             }
         } catch (IOException e) {
+            System.out.println("Connection broke");
         }
     }
 }

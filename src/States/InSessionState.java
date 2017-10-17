@@ -11,12 +11,10 @@ public class InSessionState extends State {
 
     Thread audioSendThread = new Thread();
     Thread audioReceiveThread= new Thread();
-    Thread byeThread = new Thread();
 
     private void killThreads(){
         audioSendThread.stop();
         audioReceiveThread.stop();
-        byeThread.stop();
     }
 
     InSessionState(){
