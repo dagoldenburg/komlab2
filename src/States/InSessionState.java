@@ -19,45 +19,35 @@ public class InSessionState extends State {
         byeThread.stop();
     }
 
-    private static char char2 = 'i';
-
-    public synchronized static void setChar2(char newChar){
-        char2=newChar;
-    }
-
-    public synchronized static char getChar2(){
-        return char2;
-    }
-
-    @Override
-    public State ReceivedACK() {
-        setChar2('i');
+    InSessionState(){
         Thread audioSendThread = new Thread(new AudioSend());
         audioSendThread.start();
         Thread audioReceiveThread = new Thread(new AudioReceive());
         audioReceiveThread.start();
         System.out.println("You are now in a call, Write x if you want to hang up");
-        while(true){
-            if(getChar2()=='x'){
-                try {
-                    System.out.println("sending bye");
-                    StateHandler.getToPeer().writeBytes("BYE\n");
-                } catch (IOException e) {
-                    System.out.println("Connection broke");
-                }
-                return new ClosingState();
-            }
-            if(getChar2()=='o'){
-                try {
-                    System.out.println("got bye sending ok");
-                    StateHandler.getToPeer().writeBytes("OK\n");
-                } catch (IOException e) {
-                    System.out.println("Connection broke;");
-                }
-                killThreads();
-                return new WaitingState();
-            }
-        }
     }
 
+    @Override
+    public State ReceivedBye() {
+        try {
+            System.out.println("got bye sending ok");
+            StateHandler.getToPeer().writeBytes("OK\n");
+        } catch (IOException e) {
+            System.out.println("Connection broke;");
+        }
+        killThreads();
+        return new WaitingState();
+    }
+
+    @Override
+    public State SendBye() {
+        try {
+            System.out.println("sending bye");
+            StateHandler.getToPeer().writeBytes("BYE\n");
+        } catch (IOException e) {
+            System.out.println("Connection broke");
+        }
+        killThreads();
+        return new ClosingState();
+    }
 }

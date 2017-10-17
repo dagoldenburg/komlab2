@@ -10,14 +10,8 @@ import java.util.Scanner;
 public class CalledState extends State {
 
     @Override
-    public State SendACK() {
-        try {
-            StateHandler.getToPeer().writeBytes("ACK\n");
-            return new InSessionState();
-        } catch (IOException e) {
-            System.out.println("Connection broke");
-        }
-        return new WaitingState();
+    public State ReceivedACK(){
+        return new InSessionState();
     }
 
 }

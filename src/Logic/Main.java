@@ -33,11 +33,11 @@ public class Main {
         String input;
         Scanner s = new Scanner(System.in);
         while (true) {
-                if(Main.stateHandler.getCurrentState() instanceof WaitingState)
-                  System.out.println("Welcome, write \"call <ip>:<port>\" to call someone");
-                input = s.nextLine();
+                if(Main.stateHandler.getCurrentState() instanceof WaitingState) {
+                    System.out.println("Welcome, write \"call <ip>:<port>\" to call someone");
+                    input = s.nextLine();
                 try{
-                    if (input.substring(0, 5).equalsIgnoreCase("call ") && Main.stateHandler.getCurrentState() instanceof WaitingState) {
+                    if (input.substring(0, 5).equalsIgnoreCase("call ")) {
                         String temp = input.substring(5);
                         String[] info = temp.split(":");
                         try {
@@ -45,21 +45,22 @@ public class Main {
                             StateHandler.port = Integer.parseInt(info[1]);
                             Main.stateHandler.invokeSendInvite();
                             Main.stateHandler.invokeReceivedTRO();
-                            Main.stateHandler.invokeReceivedACK();
                         } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println("Need <ip>:<port>, Example: 0.0.0.0:9999");
                         }
                     }
                 }catch(StringIndexOutOfBoundsException e){
                 }
-                if(input.equalsIgnoreCase("y") && Main.stateHandler.getCurrentState() instanceof WaitingState) {
+                if(input.equalsIgnoreCase("y")) {
                     WaitingState.setChar1('y');
-                }if(input.equalsIgnoreCase("n") && Main.stateHandler.getCurrentState() instanceof WaitingState){
+                }if(input.equalsIgnoreCase("n")){
                     WaitingState.setChar1('n');
                 }
-                if(input.equalsIgnoreCase("x") && Main.stateHandler.getCurrentState() instanceof InSessionState){
-                    System.out.println("pressed x");
-                    InSessionState.setChar2('x');
+                } else if(Main.stateHandler.getCurrentState() instanceof InSessionState) {
+                    input = s.nextLine();
+                    if (input.equalsIgnoreCase("x")) {
+                        Main.stateHandler.invokeSendBye();
+                    }
                 }
             }
         }

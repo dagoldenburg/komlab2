@@ -24,14 +24,15 @@ public class CallerHandlerThread implements Runnable {
         try {
             while(true) {
                 String input = StateHandler.getFromPeer().readLine();
+                System.out.println(input);
                 if (input.contains("INVITE")) {
                     Main.stateHandler.invokeReceivedInvite();
                 } else if (input.contains("ACK")) {
-                    Main.stateHandler.invokeSendACK();
                     Main.stateHandler.invokeReceivedACK();
                 } else if (input.contains("BYE")) {
-                    InSessionState.setChar2('o');
-                    //Main.stateHandler.invokeReceivedBye();
+                    Main.stateHandler.invokeReceivedBye();
+                }else if(input.contains("OK")){
+                    Main.stateHandler.invokeReceivedOK();
                 }
             }
         } catch (IOException e) {
