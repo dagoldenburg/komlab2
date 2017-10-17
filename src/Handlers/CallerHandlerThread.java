@@ -35,7 +35,10 @@ public class CallerHandlerThread implements Runnable {
                     Main.stateHandler.invokeReceivedOK();
                 }
             }
-        } catch (IOException e) {
+        }catch(NullPointerException e){
+
+        }
+        catch (IOException e) {
         }
 
     }
