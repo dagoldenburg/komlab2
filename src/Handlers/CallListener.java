@@ -3,6 +3,7 @@ package Handlers;
 import Logic.Main;
 import Logic.Ports;
 import States.InSessionState;
+import States.WaitingState;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -28,10 +29,11 @@ public class CallListener implements Runnable {
             try {
                 Socket connectionSocket = serverSocket.accept();
 
-                if(Main.stateHandler.getCurrentState() instanceof InSessionState){
+                if(!(Main.stateHandler.getCurrentState() instanceof WaitingState)){
                     try {
                         DataOutputStream toPeer = new DataOutputStream(connectionSocket.getOutputStream());
                         toPeer.writeBytes("BUSY\n");
+                        connectionSocket.close();
                     } catch (IOException e) {
                     }
                 }else {

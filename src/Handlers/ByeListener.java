@@ -9,11 +9,15 @@ public class ByeListener implements Runnable {
     @Override
     public void run() {
         try {
-            String input = StateHandler.fromPeer.readLine();
-            if(input.contains("BYE")){
-                Main.stateHandler.invokeReceivedBye();
-            }else if(input.contains("OK")){
-                Main.stateHandler.invokeReceivedOK();
+            while(true) {
+                String input = StateHandler.fromPeer.readLine();
+                if (input.contains("BYE")) {
+                    Main.stateHandler.invokeReceivedBye();
+                    return;
+                } else if (input.contains("OK")) {
+                    Main.stateHandler.invokeReceivedOK();
+                    return;
+                }
             }
         } catch (IOException e) {
             System.out.println("Connection broke");
