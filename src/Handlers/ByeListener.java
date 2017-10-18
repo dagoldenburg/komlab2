@@ -10,14 +10,14 @@ public class ByeListener implements Runnable {
     public void run() {
         try {
             while(true) {
-                String input = StateHandler.fromPeer.readLine();
-                if (input.contains("BYE")) {
-                    Main.stateHandler.invokeReceivedBye();
-                    return;
-                } else if (input.contains("OK")) {
-                    Main.stateHandler.invokeReceivedOK();
-                    return;
-                }
+                    String input = StateHandler.fromPeer.readLine();
+                    if (input.contains("BYE")) {
+                        Main.stateHandler.invokeReceivedBye();
+                        return;
+                    } else if (input.contains("OK")) {
+                        Main.stateHandler.invokeReceivedOK();
+                        return;
+                    }
             }
         } catch (IOException e) {
             System.out.println("Connection broke");
